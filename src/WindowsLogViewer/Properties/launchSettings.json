@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "WindowsLogViewer (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "WindowsLogViewer (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
