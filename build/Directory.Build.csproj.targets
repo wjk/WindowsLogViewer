@@ -8,7 +8,7 @@
   <ItemGroup>
     <AvailableItemName Include="RdXmlFile" />
   </ItemGroup>
-  
+
   <!-- ============== CsWinRT ============== -->
 
   <Target Name="CsWinRTGetReferenceWinMDFiles" BeforeTargets="CsWinRTGenerateProjection">
@@ -28,5 +28,6 @@
   </Target>
 
   <!-- ============== Code Signing ============== -->
+
   <Import Project="signing\CodeSigning.targets" />
 </Project>
