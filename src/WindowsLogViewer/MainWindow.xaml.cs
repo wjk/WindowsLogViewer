@@ -27,7 +27,7 @@ namespace WindowsLogViewer
         /// </summary>
         public MainWindow()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private void MyButton_Click(object sender, RoutedEventArgs e)
