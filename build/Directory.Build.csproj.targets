@@ -3,6 +3,14 @@
     <AvailableItemName Include="Manifest" />
   </ItemGroup>
 
+  <!-- ============== Restore and publish ============== -->
+
+  <Target Name="AddReadyToRunToRestore" BeforeTargets="Restore">
+    <PropertyGroup>
+      <PublishReadyToRun>true</PublishReadyToRun>
+    </PropertyGroup>
+  </Target>
+
   <!-- ============== NativeAOT ============== -->
 
   <ItemGroup>
