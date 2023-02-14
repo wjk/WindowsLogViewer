@@ -3,6 +3,28 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{5DE0755E-2DD8-4E6D-975E-9DF74A922529}"
+	ProjectSection(SolutionItems) = preProject
+		..\build\Directory.Build.csproj.props = ..\build\Directory.Build.csproj.props
+		..\build\Directory.Build.csproj.targets = ..\build\Directory.Build.csproj.targets
+		..\build\Directory.Build.vcxproj.props = ..\build\Directory.Build.vcxproj.props
+		..\build\Directory.Build.vcxproj.targets = ..\build\Directory.Build.vcxproj.targets
+		..\build\Directory.Build.wapproj.props = ..\build\Directory.Build.wapproj.props
+		..\build\Directory.Build.wapproj.targets = ..\build\Directory.Build.wapproj.targets
+		..\build\Directory.Build.wixproj.props = ..\build\Directory.Build.wixproj.props
+		..\build\Directory.Build.wixproj.targets = ..\build\Directory.Build.wixproj.targets
+		..\build\StyleCop.ruleset = ..\build\StyleCop.ruleset
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "toplevel", "toplevel", "{3829BEBC-74EA-475F-A9B7-790F4D6284AF}"
+	ProjectSection(SolutionItems) = preProject
+		..\.editorconfig = ..\.editorconfig
+		..\Directory.Build.props = ..\Directory.Build.props
+		..\Directory.Build.targets = ..\Directory.Build.targets
+		..\RepoRoot.props = ..\RepoRoot.props
+		..\version.json = ..\version.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -10,5 +32,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3829BEBC-74EA-475F-A9B7-790F4D6284AF} = {5DE0755E-2DD8-4E6D-975E-9DF74A922529}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {61608E88-E4A0-4FD4-ABB5-8998899500CD}
 	EndGlobalSection
 EndGlobal
