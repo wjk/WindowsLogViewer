@@ -1,0 +1,183 @@
+<Project>
+  <Import Project="CodeSigning.Tasks.targets" />
+
+  <Target Name="_CheckIfCertificateIsInstalled" Returns="$(CertificateExists)">
+    <Error Text="Signing is only to be enabled on Release builds." Condition="'$(SignOutput)' == 'true' and '$(Configuration)' != 'Release'" />
+
+    <CheckIfCertificateIsInstalled CertificateThumbprint="$(CertificateThumbprint)" CertificateStoreName="My" CertificateStoreLocation="CurrentUser"
+                                   Condition="'$(CertificateThumbprint)' != ''">
+      <Output TaskParameter="CertificateExists" PropertyName="CertificateExists" />
+    </CheckIfCertificateIsInstalled>
+    <ReadCertificateEnvironmentVariables Condition="'$(CertificateThumbprint)' == ''">
+      <Output TaskParameter="CertificateExists" PropertyName="CertificateExists" />
+      <Output TaskParameter="CertificateFile" PropertyName="CertificateFile" />
+      <Output TaskParameter="CertificateFilePassword" PropertyName="CertificateFilePassword" />
+    </ReadCertificateEnvironmentVariables>
+
+    <Error Text="Signing enabled, but no certificate was found" Condition="'$(SignOutput)' == 'true' and '$(CertificateExists)' != 'true'" />
+  </Target>
+
+  <Target Name="_GetFilesToSignItems" Returns="@(FilesToSign)">
+    <ItemGroup Condition=" '$(MSBuildProjectExtension)' != '.vcxproj' ">
+      <_FilesToSign Include="$(PublishDir)$(TargetName)$(TargetExt)" />
+    </ItemGroup>
+    <ItemGroup Condition=" '$(MSBuildProjectExtension)' != '.vcxproj' AND '$(TargetFrameworkIdentifier)' == '.NETCoreApp' AND ('$(OutputType)' == 'Exe' OR '$(OutputType)' == 'WinExe') ">
+      <_FilesToSign Include="$(PublishDir)$(AssemblyName).exe" />
+    </ItemGroup>
+    <ItemGroup Condition=" '$(MSBuildProjectExtension)' == '.vcxproj' ">
+      <_FilesToSign Include="$(TargetPath)" />
+    </ItemGroup>
+    <ItemGroup>
+      <_FilesToSign Include="@(PublishedFileToSign -> '$(PublishDir)%(Identity)')" />
+    </ItemGroup>
+
+    <!--
+      Filter out items which doesn't supported by our signtool.
+      Supported: .exe, .cab, .dll, .ocx, .msi, .xpi
+    -->
+    <ItemGroup>
+      <FilesToSign Include="@(_FilesToSign)"
+                   Condition=" '%(Extension)' == '.exe' OR
+                               '%(Extension)' == '.cab' OR
+                               '%(Extension)' == '.dll' OR
+                               '%(Extension)' == '.ocx' OR
+                               '%(Extension)' == '.msi' OR
+                               '%(Extension)' == '.xpi' " />
+    </ItemGroup>
+
+    <!-- Remove files that don't exist; these can happen when using NativeAOT. -->
+    <ItemGroup>
+      <FilesToSign Remove="@(FilesToSign)" Condition="!Exists('%(Identity)')" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="_SignFiles" Condition=" '@(FilesToSign)' != '' ">
+    <Exec Command="&quot;$(SignAppxPackageExeFullPath)&quot; remove /q /s &quot;%(FilesToSign.Identity)&quot;"
+          IgnoreExitCode="true" LogStandardErrorAsError="false" />
+
+    <Sign Condition="'$(CertificateThumbprint)' != ''"
+          ExecutablePath="$(SignAppxPackageExeFullPath)"
+          CertificateThumbprint="$(CertificateThumbprint)"
+          Description="$(SignDescription)"
+          InformationUrl="$(SignInformationUrl)"
+          TimestampingProvider="$(SignTimestampingProvider)"
+          FileToSign="%(FilesToSign.Identity)"
+          IgnoreExitCode="false" />
+
+    <Sign Condition="'$(CertificateFile)' != ''"
+          ExecutablePath="$(SignAppxPackageExeFullPath)"
+          CertificateFile="$(CertificateFile)"
+          CertificateFilePassword="$(CertificateFilePassword)"
+          Description="$(SignDescription)"
+          InformationUrl="$(SignInformationUrl)"
+          TimestampingProvider="$(SignTimestampingProvider)"
+          FileToSign="%(FilesToSign.Identity)"
+          IgnoreExitCode="false" />
+  </Target>
+
+  <Target Name="_GetNuGetPackagesToSignItems" Returns="@(NuGetPackagesToSign)">
+    <ItemGroup>
+      <NuGetPackagesToSign Include="@(NuGetPackOutput)" Condition=" '%(NuGetPackOutput.Extension)' == '.nupkg' " />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="_SignNuGetPackages" Inputs="@(NuGetPackagesToSign)" Outputs="%(Identity).Dummy">
+    <PropertyGroup>
+      <_PackageFullPath>%(NuGetPackagesToSign.FullPath)</_PackageFullPath>
+
+      <_NuGetSignCommand>"$(NuGetTool)" sign</_NuGetSignCommand>
+      <_NuGetSignCommand>$(_NuGetSignCommand) -Verbosity detailed</_NuGetSignCommand>
+
+      <_NuGetSignCommand>$(_NuGetSignCommand) "$(_PackageFullPath)"</_NuGetSignCommand>
+      <_NuGetSignCommand>$(_NuGetSignCommand) -CertificateFingerprint "$(CertificateThumbprint)"</_NuGetSignCommand>
+      <_NuGetSignCommand>$(_NuGetSignCommand) -Timestamper "$(SignTimestampingProvider)"</_NuGetSignCommand>
+      <_NuGetSignCommand>$(_NuGetSignCommand) -HashAlgorithm SHA512</_NuGetSignCommand>
+      <_NuGetSignCommand>$(_NuGetSignCommand) -TimestampHashAlgorithm SHA512</_NuGetSignCommand>
+      <_NuGetSignCommand Condition=" '$(UsingNuGetSignOverwrite)' == 'true' ">$(_NuGetSignCommand) -Overwrite</_NuGetSignCommand>
+    </PropertyGroup>
+
+    <Exec Command="$(_NuGetSignCommand)" StandardOutputImportance="Normal" IgnoreStandardErrorWarningFormat="true" />
+    <Message Text="Signed NuGet package -> $(_PackageFullPath)" Importance="High" />
+
+    <ItemGroup>
+      <FileWrites Include="@(NuGetPackagesToSign)" />
+    </ItemGroup>
+  </Target>
+
+  <!--
+    Implicit signing NuGet packages
+  -->
+  <Choose>
+    <When Condition=" '$(UsingNuGetSign)' == 'true' ">
+      <PropertyGroup>
+        <_SignNuGetPackagesDependsOn>
+          _ReEvaluateSignSettings;
+          _CheckIfCertificateIsInstalled;
+          _GetNuGetPackagesToSignItems;
+          _SignNuGetPackages;
+          $(_SignNuGetPackagesDependsOn)
+        </_SignNuGetPackagesDependsOn>
+      </PropertyGroup>
+
+      <PropertyGroup>
+        <PackDependsOn>
+          $(PackDependsOn);
+          $(_SignNuGetPackagesDependsOn)
+        </PackDependsOn>
+      </PropertyGroup>
+    </When>
+  </Choose>
+
+  <Choose>
+    <When Condition=" '$(SignOutput)' == 'true' ">
+      <!--
+        Implicit signing
+          - Managed projects:   After Compile target
+          - Unmanaged projects: After BuildLink target
+      -->
+      <PropertyGroup>
+        <_SignDependsOn>
+          _ReEvaluateSignSettings;
+          _CheckIfCertificateIsInstalled;
+          _GetFilesToSignItems;
+          _SignFiles;
+          $(_SignDependsOn)
+        </_SignDependsOn>
+      </PropertyGroup>
+    </When>
+  </Choose>
+
+  <Choose>
+    <When Condition=" '$(SignOutput)' == 'true' ">
+      <Choose>
+        <When Condition=" '$(MSBuildProjectExtension)' == '.vcxproj' ">
+          <PropertyGroup>
+            <!-- Override BuildSteps in 'MSBuild/Microsoft/VC/v{{Current-VC-Version}}/Microsoft.BuildSteps.Targets' -->
+            <BuildSteps>
+              ResolveReferences;
+              PrepareForBuild;
+              InitializeBuildStatus;
+              BuildGenerateSources;
+              BuildCompile;
+              BuildLink;
+              $(_SignDependsOn)
+            </BuildSteps>
+          </PropertyGroup>
+        </When>
+      </Choose>
+    </When>
+  </Choose>
+
+  <!--
+    Explicit signing
+    Execute Build which implicit call implicit signing.
+  -->
+  <PropertyGroup>
+    <SignDependsOn>
+      $(_SignDependsOn);
+      $(SignDependsOn)
+    </SignDependsOn>
+  </PropertyGroup>
+
+  <Target Name="Sign" DependsOnTargets="$(SignDependsOn)" Condition=" '$(SignOutput)' == 'true' " AfterTargets="Publish" />
+</Project>

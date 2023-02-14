@@ -1,0 +1,69 @@
+<Project>
+  <Import Project="CodeSigning.Tasks.targets" />
+
+  <Target Name="BeforeSigning" DependsOnTargets="_ReEvaluateSignSettings">
+    <Error Text="Signing is only to be enabled on Release builds." Condition="'$(SignOutput)' == 'true' and '$(Configuration)' != 'Release'" />
+
+    <CheckIfCertificateIsInstalled CertificateThumbprint="$(CertificateThumbprint)" CertificateStoreName="My" CertificateStoreLocation="CurrentUser"
+                                   Condition="'$(CertificateThumbprint)' != ''">
+      <Output TaskParameter="CertificateExists" PropertyName="CertificateExists" />
+    </CheckIfCertificateIsInstalled>
+    <ReadCertificateEnvironmentVariables Condition="'$(CertificateExists)' != 'true' and '$(CertificateFile)' == ''">
+      <Output TaskParameter="CertificateExists" PropertyName="CertificateExists" />
+      <Output TaskParameter="CertificateFile" PropertyName="CertificateFile" />
+      <Output TaskParameter="CertificateFilePassword" PropertyName="CertificateFilePassword" />
+    </ReadCertificateEnvironmentVariables>
+
+    <Error Text="Signing enabled, but no certificate was found" Condition="'$(SignOutput)' == 'true' and '$(CertificateExists)' != 'true'" />
+  </Target>
+
+  <Target Name="SignMsm">
+    <Sign ExecutablePath="$(SignAppxPackageExeFullPath)" CertificateThumbprint="$(CertificateThumbprint)" Description="$(SignDescription)"
+          InformationUrl="$(SignInformationUrl)" TimestampingProvider="$(SignTimestampingProvider)" FileToSign="%(SignMsm.Identity)"
+          IgnoreExitCode="false" Condition="'$(CertificateThumbprint)' != ''" />
+    <Sign ExecutablePath="$(SignAppxPackageExeFullPath)" CertificateFile="$(CertificateFile)" CertificateFilePassword="$(CertificateFilePassword)"
+          Description="$(SignDescription)" InformationUrl="$(SignInformationUrl)" TimestampingProvider="$(SignTimestampingProvider)"
+          FileToSign="%(SignMsm.Identity)" IgnoreExitCode="false" Condition="'$(CertificateFile)' != ''" />
+  </Target>
+  <Target Name="SignCabs">
+    <Sign ExecutablePath="$(SignAppxPackageExeFullPath)" CertificateThumbprint="$(CertificateThumbprint)" Description="$(SignDescription)"
+          InformationUrl="$(SignInformationUrl)" TimestampingProvider="$(SignTimestampingProvider)" FileToSign="%(SignCabs.Identity)"
+          IgnoreExitCode="false" Condition="'$(CertificateThumbprint)' != ''" />
+    <Sign ExecutablePath="$(SignAppxPackageExeFullPath)" CertificateFile="$(CertificateFile)" CertificateFilePassword="$(CertificateFilePassword)"
+          Description="$(SignDescription)" InformationUrl="$(SignInformationUrl)" TimestampingProvider="$(SignTimestampingProvider)"
+          FileToSign="%(SignCabs.Identity)" IgnoreExitCode="false" Condition="'$(CertificateFile)' != ''" />
+  </Target>
+  <Target Name="SignMsi">
+    <Sign ExecutablePath="$(SignAppxPackageExeFullPath)" CertificateThumbprint="$(CertificateThumbprint)" Description="$(SignDescription)"
+          InformationUrl="$(SignInformationUrl)" TimestampingProvider="$(SignTimestampingProvider)" FileToSign="%(SignMsi.Identity)"
+          IgnoreExitCode="false" Condition="'$(CertificateThumbprint)' != ''" />
+    <Sign ExecutablePath="$(SignAppxPackageExeFullPath)" CertificateFile="$(CertificateFile)" CertificateFilePassword="$(CertificateFilePassword)"
+          Description="$(SignDescription)" InformationUrl="$(SignInformationUrl)" TimestampingProvider="$(SignTimestampingProvider)"
+          FileToSign="%(SignMsi.Identity)" IgnoreExitCode="false" Condition="'$(CertificateFile)' != ''" />
+  </Target>
+
+  <Target Name="SignContainers">
+    <Sign ExecutablePath="$(SignAppxPackageExeFullPath)" CertificateThumbprint="$(CertificateThumbprint)" Description="$(SignDescription)"
+          InformationUrl="$(SignInformationUrl)" TimestampingProvider="$(SignTimestampingProvider)" FileToSign="%(SignContainers.Identity)"
+          IgnoreExitCode="false" Condition="'$(CertificateThumbprint)' != ''" />
+    <Sign ExecutablePath="$(SignAppxPackageExeFullPath)" CertificateFile="$(CertificateFile)" CertificateFilePassword="$(CertificateFilePassword)"
+          Description="$(SignDescription)" InformationUrl="$(SignInformationUrl)" TimestampingProvider="$(SignTimestampingProvider)"
+          FileToSign="%(SignContainers.Identity)" IgnoreExitCode="false" Condition="'$(CertificateFile)' != ''" />
+  </Target>
+  <Target Name="SignBundleEngine">
+    <Sign ExecutablePath="$(SignAppxPackageExeFullPath)" CertificateThumbprint="$(CertificateThumbprint)" Description="$(SignDescription)"
+          InformationUrl="$(SignInformationUrl)" TimestampingProvider="$(SignTimestampingProvider)" FileToSign="%(SignBundleEngine.Identity)"
+          IgnoreExitCode="false" Condition="'$(CertificateThumbprint)' != ''" />
+    <Sign ExecutablePath="$(SignAppxPackageExeFullPath)" CertificateFile="$(CertificateFile)" CertificateFilePassword="$(CertificateFilePassword)"
+          Description="$(SignDescription)" InformationUrl="$(SignInformationUrl)" TimestampingProvider="$(SignTimestampingProvider)"
+          FileToSign="%(SignBundleEngine.Identity)" IgnoreExitCode="false" Condition="'$(CertificateFile)' != ''" />
+  </Target>
+  <Target Name="SignBundle">
+    <Sign ExecutablePath="$(SignAppxPackageExeFullPath)" CertificateThumbprint="$(CertificateThumbprint)" Description="$(SignDescription)"
+          InformationUrl="$(SignInformationUrl)" TimestampingProvider="$(SignTimestampingProvider)" FileToSign="%(SignBundle.Identity)"
+          IgnoreExitCode="false" Condition="'$(CertificateThumbprint)' != ''" />
+    <Sign ExecutablePath="$(SignAppxPackageExeFullPath)" CertificateFile="$(CertificateFile)" CertificateFilePassword="$(CertificateFilePassword)"
+          Description="$(SignDescription)" InformationUrl="$(SignInformationUrl)" TimestampingProvider="$(SignTimestampingProvider)"
+          FileToSign="%(SignBundle.Identity)" IgnoreExitCode="false" Condition="'$(CertificateFile)' != ''" />
+  </Target>
+</Project>

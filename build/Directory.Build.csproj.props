@@ -1,0 +1,51 @@
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="$(TargetFramework.StartsWith('net5.0-windows')) and !$([MSBuild]::IsOSPlatform(Windows))">
+    <TargetFramework>net5.0-windows</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <LangVersion>10.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <NoWarn>SA0001;$(NoWarn)</NoWarn>
+
+    <Company>William Kent</Company>
+    <Authors>William Kent</Authors>
+    <Copyright>Copyright © 2021 William Kent. All rights reserved.</Copyright>
+    <PublishRepositoryUrl>false</PublishRepositoryUrl>
+    <EmbedUntrackedSources>false</EmbedUntrackedSources>
+    <IncludeSymbols>false</IncludeSymbols>
+
+    <EnableNETAnalyzers Condition="'$(EnableNETAnalyzers)' == ''">true</EnableNETAnalyzers>
+    <EnableDefaultNoneItems>false</EnableDefaultNoneItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DotNet.ReproducibleBuilds" Version="0.1.34" PrivateAssets="All"/>
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.4.231" PrivateAssets="all" />
+  </ItemGroup>
+  <Sdk Name="DotNet.ReproducibleBuilds.Isolated" Version="0.1.64" />
+
+  <PropertyGroup>
+    <ImplicitUsings>true</ImplicitUsings>
+  </PropertyGroup>
+
+  <!-- ============== Code Analysis ============== -->
+
+  <PropertyGroup Condition="'$(EnableNETAnalyzers)' == 'true'">
+    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)StyleCop.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(EnableNETAnalyzers)' == 'true'">
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" />
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(EnableNETAnalyzers)' == 'true' and '$(UseWPF)' == 'true'">
+    <PackageReference Include="WPFAnalyzers" Version="2.4.5" PrivateAssets="all" />
+  </ItemGroup>
+
+  <!-- ============== Code Signing ============== -->
+  <Import Project="signing\CodeSigning.props" />
+</Project>

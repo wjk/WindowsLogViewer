@@ -1,0 +1,15 @@
+<Project>
+  <Target Name="Build" Condition="'$(WixTargetPath)' == ''">
+    <Error Text="NuGet PackageReferences must be manually restored in WiX projects. Please run msbuild /t:Restore in this project's directory."
+           Condition="'@(PackageReference)' != '' and !Exists('$(MSBuildProjectExtensionsPath)project.assets.json')" />
+  </Target>
+
+  <Import Project="$(NuGetRestoreTargets)" />
+  <Import Project="$(MSBuildProjectExtensionsPath)$(MSBuildProjectFile).*.targets" />
+  <Import Project="$(WixTargetsPath)" Condition="'$(WixTargetsPath)' != '' " />
+
+
+  <!-- ============== Code Signing ============== -->
+
+  <Import Project="signing\CodeSigning.Wix.targets" />
+</Project>

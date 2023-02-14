@@ -1,0 +1,26 @@
+<Project>
+  <PropertyGroup>
+    <OutputPath>$(BaseOutputPath)$(Platform)\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>$(BaseIntermediateOutputPath)$(Platform)\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <WixVersion>3.11.2</WixVersion>
+
+    <MSBuildProjectExtensionsPath>$(BaseIntermediateOutputPath)</MSBuildProjectExtensionsPath>
+    <MSBuildProjectExtensionsPath Condition="'$(MSBuildProjectExtensionsPath)' == ''">$(MSBuildProjectDir)\obj\</MSBuildProjectExtensionsPath>
+    <!-- IsRunningFromVisualStudio may be true even when running msbuild.exe from command line. This generally means that MSBUild is Visual Studio installation and therefore we need to find NuGet.targets in a different location.  -->
+    <NuGetRestoreTargets Condition="'$(NuGetRestoreTargets)' == '' and '$([MSBuild]::IsRunningFromVisualStudio())' == 'true'">$(MSBuildToolsPath32)\..\..\..\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets</NuGetRestoreTargets>
+    <NuGetRestoreTargets Condition="'$(NuGetRestoreTargets)' == ''">$(MSBuildToolsPath)\NuGet.targets</NuGetRestoreTargets>
+  </PropertyGroup>
+
+  <Import Project="$(MSBuildProjectExtensionsPath)$(MSBuildProjectFile).*.props" Condition="'$(_ProjectExtensionsWereImported)' != 'true'" />
+
+  <ItemGroup>
+    <PackageReference Include="Wix" Version="$(WixVersion)" />
+  </ItemGroup>
+
+  <!-- ============== Code Signing ============== -->
+
+  <Import Project="signing\CodeSigning.props" />
+</Project>
