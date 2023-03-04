@@ -5,15 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{5DE0755E-2DD8-4E6D-975E-9DF74A922529}"
 	ProjectSection(SolutionItems) = preProject
-		..\build\Directory.Build.csproj.props = ..\build\Directory.Build.csproj.props
-		..\build\Directory.Build.csproj.targets = ..\build\Directory.Build.csproj.targets
-		..\build\Directory.Build.vcxproj.props = ..\build\Directory.Build.vcxproj.props
-		..\build\Directory.Build.vcxproj.targets = ..\build\Directory.Build.vcxproj.targets
-		..\build\Directory.Build.wapproj.props = ..\build\Directory.Build.wapproj.props
-		..\build\Directory.Build.wapproj.targets = ..\build\Directory.Build.wapproj.targets
-		..\build\Directory.Build.wixproj.props = ..\build\Directory.Build.wixproj.props
-		..\build\Directory.Build.wixproj.targets = ..\build\Directory.Build.wixproj.targets
-		..\build\StyleCop.ruleset = ..\build\StyleCop.ruleset
+		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "toplevel", "toplevel", "{3829BEBC-74EA-475F-A9B7-790F4D6284AF}"
@@ -26,6 +18,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "toplevel", "toplevel", "{38
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WindowsLogViewer", "WindowsLogViewer\WindowsLogViewer.csproj", "{AA8AD1B4-E58D-4DCA-99D5-C8F0C5466865}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{BE431712-5417-4DF6-8FCC-A283E6628361}"
+	ProjectSection(SolutionItems) = preProject
+		..\build\Directory.Build.csproj.props = ..\build\Directory.Build.csproj.props
+		..\build\Directory.Build.csproj.targets = ..\build\Directory.Build.csproj.targets
+		..\build\Directory.Build.vcxproj.props = ..\build\Directory.Build.vcxproj.props
+		..\build\Directory.Build.vcxproj.targets = ..\build\Directory.Build.vcxproj.targets
+		..\build\Directory.Build.wapproj.props = ..\build\Directory.Build.wapproj.props
+		..\build\Directory.Build.wapproj.targets = ..\build\Directory.Build.wapproj.targets
+		..\build\Directory.Build.wixproj.props = ..\build\Directory.Build.wixproj.props
+		..\build\Directory.Build.wixproj.targets = ..\build\Directory.Build.wixproj.targets
+		..\build\StyleCop.ruleset = ..\build\StyleCop.ruleset
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +48,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3829BEBC-74EA-475F-A9B7-790F4D6284AF} = {5DE0755E-2DD8-4E6D-975E-9DF74A922529}
+		{BE431712-5417-4DF6-8FCC-A283E6628361} = {5DE0755E-2DD8-4E6D-975E-9DF74A922529}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {61608E88-E4A0-4FD4-ABB5-8998899500CD}
