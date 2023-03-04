@@ -19,6 +19,7 @@
 
     <EnableNETAnalyzers Condition="'$(EnableNETAnalyzers)' == ''">true</EnableNETAnalyzers>
     <EnableDefaultNoneItems>false</EnableDefaultNoneItems>
+    <ImplicitUsings>True</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
