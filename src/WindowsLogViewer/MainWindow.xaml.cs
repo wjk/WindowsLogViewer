@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
@@ -16,6 +17,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
+using WindowsLogViewer.Model;
 
 namespace LogViewer
 {
@@ -61,6 +64,25 @@ namespace LogViewer
 
                 MessageBox.Show(message.ToString(), "Event Log Viewer", MessageBoxButton.OK, MessageBoxImage.Information);
             }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            ObservableCollection<BaseLogModelSource> sources = new ObservableCollection<BaseLogModelSource>
+            {
+                ClassicLogModel.ApplicationLog,
+                ClassicLogModel.SecurityLog,
+                ClassicLogModel.SetupLog,
+                ClassicLogModel.SystemLog,
+            };
+
+            DataContext = sources;
+
+            Task.Run(() =>
+            {
+                foreach (var source in EtwLogModel.AllLogs)
+                    Dispatcher.InvokeAsync(() => sources.Add(source));
+            });
         }
     }
 }
