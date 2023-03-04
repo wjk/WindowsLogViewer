@@ -2,6 +2,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +30,37 @@ namespace LogViewer
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void DemoButton_Click(object sender, RoutedEventArgs e)
+        {
+            EventLogQuery query = new EventLogQuery("Microsoft-Windows-AppLocker/EXE and DLL", PathType.LogName);
+            query.ReverseDirection = false;
+
+            using (EventLogReader reader = new EventLogReader(query))
+            {
+                StringBuilder message = new StringBuilder();
+
+                for (int i = 0; i < 5; i++)
+                {
+                    EventRecord? entry;
+
+                    try
+                    {
+                        entry = reader.ReadEvent();
+                    }
+                    catch
+                    {
+                        continue; // try again
+                    }
+
+                    if (entry == null) break; // end of records
+
+                    message.AppendLine($"Event #{i + 1} at {entry.TimeCreated}");
+                }
+
+                MessageBox.Show(message.ToString(), "Event Log Viewer", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
     }
 }

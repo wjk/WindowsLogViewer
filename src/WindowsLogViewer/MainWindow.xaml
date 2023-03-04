@@ -9,7 +9,7 @@
         Background="{DynamicResource ApplicationBackgroundBrush}">
     <Grid>
         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
-            <ui:Button IsDefault="True" Content="Sample Button" Appearance="Primary" Margin="12" />
+            <ui:Button IsDefault="True" Content="Sample Button" Appearance="Primary" Margin="12" Click="DemoButton_Click" />
             <ui:Button IsCancel="True" Content="Cancel" Appearance="Secondary" Margin="0 12 12 12" />
             <ui:Button Content="Third Button" Margin="24 12 12 12" />
         </StackPanel>
