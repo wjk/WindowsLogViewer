@@ -5,7 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:local="clr-namespace:LogViewer"
-        Title="MainWindow" Height="450" Width="800"
+        Title="Windows Log Viewer" Height="450" Width="800"
         Background="{DynamicResource ApplicationBackgroundBrush}">
     <Grid>
         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
