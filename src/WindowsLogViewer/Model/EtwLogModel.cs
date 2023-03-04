@@ -7,7 +7,7 @@ namespace WindowsLogViewer.Model;
 /// <summary>
 /// Represents the "new" Windows Vista-era event tracing mechanism.
 /// </summary>
-internal sealed class EtwLogModel : ILogModelSource, IDisposable
+internal sealed class EtwLogModel : BaseLogModelSource, IDisposable
 {
     /// <summary>
     /// Gets a list of <see cref="EtwLogModel"/> for every log in the system.
@@ -46,12 +46,12 @@ internal sealed class EtwLogModel : ILogModelSource, IDisposable
     }
 
     /// <inheritdoc/>
-    public IReadOnlyList<LogModelEntry> Entries => entries;
+    public override IReadOnlyList<LogModelEntry> Entries => entries;
 
     /// <summary>
     /// Gets the name of the log.
     /// </summary>
-    public string LogName => name;
+    public override string LogName => name;
 
     /// <inheritdoc/>
     public void Dispose()
@@ -60,7 +60,7 @@ internal sealed class EtwLogModel : ILogModelSource, IDisposable
     }
 
     /// <inheritdoc/>
-    public Task PopulateAsync() => Task.Run(() =>
+    public override Task PopulateAsync() => Task.Run(() =>
     {
         reader.BatchSize = 512;
 

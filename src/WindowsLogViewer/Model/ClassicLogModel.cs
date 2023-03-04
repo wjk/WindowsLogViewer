@@ -7,7 +7,7 @@ namespace WindowsLogViewer.Model;
 /// <summary>
 /// Represents the "classic" Windows XP-era Windows Event Log.
 /// </summary>
-internal sealed class ClassicLogModel : ILogModelSource, IDisposable
+internal sealed class ClassicLogModel : BaseLogModelSource, IDisposable
 {
     /// <summary>
     /// The Application log.
@@ -29,16 +29,21 @@ internal sealed class ClassicLogModel : ILogModelSource, IDisposable
     /// </summary>
     public static readonly ClassicLogModel SystemLog = new ClassicLogModel("System");
 
+    private readonly string name;
     private readonly EventLog logReader;
     private readonly List<LogModelEntry> modelEntries = new List<LogModelEntry>();
 
     private ClassicLogModel(string logName)
     {
         logReader = new EventLog(logName);
+        name = logName;
     }
 
     /// <inheritdoc/>
-    public IReadOnlyList<LogModelEntry> Entries => modelEntries;
+    public override IReadOnlyList<LogModelEntry> Entries => modelEntries;
+
+    /// <inheritdoc/>
+    public override string LogName => name;
 
     /// <inheritdoc/>
     public void Dispose()
@@ -47,7 +52,7 @@ internal sealed class ClassicLogModel : ILogModelSource, IDisposable
     }
 
     /// <inheritdoc/>
-    public Task PopulateAsync() => Task.Run(() =>
+    public override Task PopulateAsync() => Task.Run(() =>
     {
         EventLogEntryCollection allEvents = logReader.Entries;
         int count = allEvents.Count;

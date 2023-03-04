@@ -5,7 +5,7 @@ namespace WindowsLogViewer.Model;
 /// <summary>
 /// A source of log entries (either <see cref="ClassicLogModel"/> or EtwLogModel).
 /// </summary>
-internal interface ILogModelSource
+internal abstract class BaseLogModelSource
 {
     /// <summary>
     /// Starts the process of reading the log on a background thread.
@@ -13,10 +13,15 @@ internal interface ILogModelSource
     /// <returns>
     /// A <see cref="Task"/> representing the result of the asynchronous operation.
     /// </returns>
-    Task PopulateAsync();
+    public abstract Task PopulateAsync();
 
     /// <summary>
     /// Gets the entries in the log so far processed.
     /// </summary>
-    IReadOnlyList<LogModelEntry> Entries { get; }
+    public abstract IReadOnlyList<LogModelEntry> Entries { get; }
+
+    /// <summary>
+    /// Gets the name of the log.
+    /// </summary>
+    public abstract string LogName { get; }
 }
