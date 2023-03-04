@@ -22,7 +22,14 @@ internal sealed class EtwLogModel : BaseLogModelSource, IDisposable
         EventLogSession session = EventLogSession.GlobalSession;
         foreach (string logName in session.GetLogNames())
         {
-            logList.Add(new EtwLogModel(logName));
+            try
+            {
+                logList.Add(new EtwLogModel(logName));
+            }
+            catch (UnauthorizedAccessException)
+            {
+                // Some logs require elevation to read. Skip those.
+            }
         }
 
         return logList;
