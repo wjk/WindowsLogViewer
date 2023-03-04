@@ -3,9 +3,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:local="clr-namespace:LogViewer"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        Background="{DynamicResource ApplicationBackgroundBrush}">
     <Grid>
-
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
+            <ui:Button IsDefault="True" Content="Sample Button" Appearance="Primary" Margin="12" />
+            <ui:Button IsCancel="True" Content="Cancel" Appearance="Secondary" Margin="0 12 12 12" />
+            <ui:Button Content="Third Button" Margin="24 12 12 12" />
+        </StackPanel>
     </Grid>
 </Window>
