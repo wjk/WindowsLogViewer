@@ -7,7 +7,7 @@
     <UseWPF>true</UseWPF>
 
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <AssemblyName>Windows Log Viewer</AssemblyName>
+    <AssemblyTitle>Windows Log Viewer</AssemblyTitle>
   </PropertyGroup>
 
   <ItemGroup>
