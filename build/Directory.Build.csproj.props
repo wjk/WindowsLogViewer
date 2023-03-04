@@ -12,7 +12,7 @@
 
     <Company>William Kent</Company>
     <Authors>William Kent</Authors>
-    <Copyright>Copyright © 2023 William Kent. All rights reserved.</Copyright>
+    <Copyright>Copyright © $([System.DateTime]::Now.Year) William Kent. All rights reserved.</Copyright>
     <PublishRepositoryUrl>false</PublishRepositoryUrl>
     <EmbedUntrackedSources>false</EmbedUntrackedSources>
     <IncludeSymbols>false</IncludeSymbols>
