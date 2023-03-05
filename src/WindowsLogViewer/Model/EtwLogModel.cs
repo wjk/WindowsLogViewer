@@ -27,6 +27,14 @@ internal sealed class EtwLogModel : BaseLogModelSource, IDisposable
         {
             try
             {
+                EventLogConfiguration config = new EventLogConfiguration(logName);
+
+                // Skip analytical and debug logs, just as the built-in Event Viewer does.
+                if (config.LogType == EventLogType.Analytical || config.LogType == EventLogType.Debug)
+                {
+                    continue;
+                }
+
                 logList.Add(new EtwLogModel(logName));
             }
             catch (UnauthorizedAccessException)
