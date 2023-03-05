@@ -63,7 +63,6 @@ namespace LogViewer
                 {
                     model = ClassicLogModel.SecurityLog;
                     Dispatcher.Invoke(() => sources.Insert(1, model));
-                    sources.Insert(1, ClassicLogModel.SecurityLog);
                 }
                 catch
                 {
