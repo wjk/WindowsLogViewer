@@ -24,7 +24,6 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="9*" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <ComboBox x:Name="LogChooser" Grid.Column="0" Margin="24 8" IsEditable="False" ItemsSource="{Binding Path=Sources}"
@@ -35,6 +34,11 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
+
+            <StackPanel x:Name="LoadingSpinnerContainer" Grid.Column="1" ToolTipService.ToolTip="Loading classic logs..."
+                        Margin="0 0 8 0" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Right">
+                <ui:ProgressRing IsIndeterminate="True" Width="32" Height="32" />
+            </StackPanel>
         </Grid>
 
         <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible">

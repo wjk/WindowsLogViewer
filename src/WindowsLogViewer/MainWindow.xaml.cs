@@ -40,6 +40,8 @@ namespace LogViewer
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            LoadingSpinnerContainer.SetCurrentValue(VisibilityProperty, Visibility.Visible);
+
             Task.Run(() =>
             {
                 DataHolder holder = new DataHolder();
@@ -68,6 +70,8 @@ namespace LogViewer
                     // The above will throw if we are not running elevated.
                     // Ignore the exception.
                 }
+
+                Dispatcher.Invoke(() => LoadingSpinnerContainer.SetCurrentValue(VisibilityProperty, Visibility.Collapsed));
             });
         }
 
