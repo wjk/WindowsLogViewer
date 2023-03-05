@@ -45,24 +45,29 @@ namespace LogViewer
                 DataHolder holder = new DataHolder();
                 var sources = holder.Sources;
 
-                sources.Add(ClassicLogModel.ApplicationLog);
-                sources.Add(ClassicLogModel.SetupLog);
-                sources.Add(ClassicLogModel.SystemLog);
+                foreach (var source in EtwLogModel.AllLogs)
+                    Dispatcher.InvokeAsync(() => sources.Add(source));
+
+                Dispatcher.Invoke(() => this.DataContext = holder);
+
+                var model = ClassicLogModel.ApplicationLog;
+                Dispatcher.Invoke(() => sources.Insert(0, model));
+                model = ClassicLogModel.SetupLog;
+                Dispatcher.Invoke(() => sources.Insert(1, model));
+                model = ClassicLogModel.SystemLog;
+                Dispatcher.Invoke(() => sources.Insert(2, model));
 
                 try
                 {
-                    sources.Add(ClassicLogModel.SecurityLog);
+                    model = ClassicLogModel.SecurityLog;
+                    Dispatcher.Invoke(() => sources.Insert(1, model));
+                    sources.Insert(1, ClassicLogModel.SecurityLog);
                 }
                 catch
                 {
                     // The above will throw if we are not running elevated.
                     // Ignore the exception.
                 }
-
-                foreach (var source in EtwLogModel.AllLogs)
-                    Dispatcher.InvokeAsync(() => sources.Add(source));
-
-                Dispatcher.Invoke(() => this.DataContext = holder);
             });
         }
 
