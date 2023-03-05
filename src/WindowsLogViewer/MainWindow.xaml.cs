@@ -1,5 +1,6 @@
 ﻿// Copyright (c) William Kent and contributors. All rights reserved.
 
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
@@ -20,7 +21,7 @@ namespace LogViewer
 
             public BaseLogModelSource? CurrentSource { get; set; }
 
-            public List<LogModelEntry> Entries { get; } = new List<LogModelEntry>();
+            public ObservableCollection<LogModelEntry> Entries { get; } = new ObservableCollection<LogModelEntry>();
 
             public void OnPropertyChanged(string name)
             {
@@ -86,7 +87,9 @@ namespace LogViewer
             if (holder.CurrentSource != null)
             {
                 holder.Entries.Clear();
-                holder.Entries.AddRange(holder.CurrentSource.Read(20));
+
+                var results = holder.CurrentSource.Read(20);
+                foreach (var item in results) holder.Entries.Add(item);
                 holder.OnPropertyChanged(nameof(holder.Entries));
             }
             else
