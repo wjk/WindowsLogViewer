@@ -4,14 +4,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns:controls="clr-namespace:WindowsLogViewer.Controls"
         xmlns:model="clr-namespace:WindowsLogViewer.Model"
         Title="Windows Log Viewer" Height="450" Width="800"
         Background="{DynamicResource ApplicationBackgroundBrush}"
         Loaded="Window_Loaded">
+    <Window.Resources>
+        <controls:DateTimeToStringConverter x:Key="EventDateConverter" Format="G" />
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="3*" />
+            <RowDefinition Height="4*" />
             <RowDefinition Height="2*" />
         </Grid.RowDefinitions>
 
@@ -22,7 +27,8 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <ComboBox x:Name="LogChooser" Grid.Column="0" Margin="24 8" IsEditable="False" ItemsSource="{Binding}">
+            <ComboBox x:Name="LogChooser" Grid.Column="0" Margin="24 8" IsEditable="False" ItemsSource="{Binding Path=Sources}"
+                      SelectionChanged="LogChooser_SelectionChanged">
                 <ComboBox.ItemTemplate>
                     <DataTemplate DataType="model:BaseLogModelSource">
                         <TextBlock Text="{Binding Path=LogName}" />
@@ -30,5 +36,28 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </Grid>
+
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible">
+            <ListBox x:Name="EventList" ItemsSource="{Binding Path=Entries}" Margin="12 0 0 0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="model:LogModelEntry">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="7*" />
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <controls:EventEntryGlyph Symbol="{Binding Path=Severity}" Grid.Column="0"
+                                                      HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" Text="{Binding Path=Message}" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                       TextTrimming="CharacterEllipsis" />
+                            <TextBlock Grid.Column="2" Text="{Binding Path=TimeStamp, Converter={StaticResource EventDateConverter}}" FontSize="9"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </ScrollViewer>
     </Grid>
 </Window>
