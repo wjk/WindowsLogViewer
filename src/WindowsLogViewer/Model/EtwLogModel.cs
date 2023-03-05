@@ -118,17 +118,7 @@ internal sealed class EtwLogModel : BaseLogModelSource, IDisposable
 
         while (true)
         {
-            EventRecord? logEntry;
-
-            try
-            {
-                logEntry = reader.ReadEvent();
-            }
-            catch
-            {
-                // ignore error and try again
-                continue;
-            }
+            EventRecord? logEntry = reader.ReadEvent();
 
             if (logEntry == null) break;
 
