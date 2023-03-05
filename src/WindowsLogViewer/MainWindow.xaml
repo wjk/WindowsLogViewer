@@ -22,7 +22,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <ComboBox x:Name="LogChooser" Grid.Column="0" Margin="24 8" IsEditable="False" Padding="24 6" ItemsSource="{Binding}">
+            <ComboBox x:Name="LogChooser" Grid.Column="0" Margin="24 8" IsEditable="False" ItemsSource="{Binding}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate DataType="model:BaseLogModelSource">
                         <TextBlock Text="{Binding Path=LogName}" />
