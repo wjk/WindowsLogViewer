@@ -38,7 +38,7 @@ internal struct LogModelEntry : IEquatable<LogModelEntry>
     /// <summary>
     /// Gets or sets the date and time the entry was logged.
     /// </summary>
-    public DateTime TimeStamp { get; set; }
+    public DateTime? TimeStamp { get; set; }
 
     /// <inheritdoc/>
     public bool Equals(LogModelEntry other)

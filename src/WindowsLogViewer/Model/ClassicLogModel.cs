@@ -125,6 +125,7 @@ internal sealed class ClassicLogModel : BaseLogModelSource, IDisposable
                     Message = entry.Message,
                     EventId = entry.InstanceId,
                     Source = entry.Source,
+                    TimeStamp = entry.TimeGenerated,
 
                     Severity = entry.EntryType switch
                     {

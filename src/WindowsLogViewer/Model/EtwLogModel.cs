@@ -83,6 +83,7 @@ internal sealed class EtwLogModel : BaseLogModelSource, IDisposable
                 Source = logEntry.ProviderName,
                 EventId = logEntry.Id,
                 Message = logEntry.FormatDescription(),
+                TimeStamp = logEntry.TimeCreated,
 
                 Severity = logEntry.LevelDisplayName switch
                 {
