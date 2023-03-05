@@ -59,4 +59,15 @@ internal struct LogModelEntry : IEquatable<LogModelEntry>
         int sourceHash = Source?.GetHashCode() ?? 0;
         return Severity.GetHashCode() ^ EventId.GetHashCode() ^ Message.GetHashCode() ^ sourceHash ^ TimeStamp.GetHashCode();
     }
+
+    /// <summary>
+    /// Gets a one-line string containing an overview of the entry.
+    /// </summary>
+    public string ShortTitle
+    {
+        get
+        {
+            return $"{EventId} — {Source}";
+        }
+    }
 }

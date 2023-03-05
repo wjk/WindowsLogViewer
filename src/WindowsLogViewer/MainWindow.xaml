@@ -50,7 +50,7 @@
 
                             <controls:EventEntryGlyph Symbol="{Binding Path=Severity}" Grid.Column="0"
                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <TextBlock Grid.Column="1" Text="{Binding Path=Message}" HorizontalAlignment="Left" VerticalAlignment="Center"
+                            <TextBlock Grid.Column="1" Text="{Binding Path=ShortTitle}" HorizontalAlignment="Left" VerticalAlignment="Center"
                                        TextTrimming="CharacterEllipsis" />
                             <TextBlock Grid.Column="2" Text="{Binding Path=TimeStamp, Converter={StaticResource EventDateConverter}}" FontSize="9"
                                        HorizontalAlignment="Center" VerticalAlignment="Center" />
