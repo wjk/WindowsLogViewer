@@ -21,10 +21,7 @@ internal abstract class BaseLogModelSource
     /// <summary>
     /// Starts the process of reading the log on a background thread.
     /// </summary>
-    /// <returns>
-    /// A <see cref="Task"/> representing the result of the asynchronous operation.
-    /// </returns>
-    public abstract Task PopulateAsync();
+    public abstract void Populate();
 
     /// <summary>
     /// Gets the entries in the log so far processed.

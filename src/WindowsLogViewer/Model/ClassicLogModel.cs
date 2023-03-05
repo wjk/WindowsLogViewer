@@ -39,7 +39,7 @@ internal sealed class ClassicLogModel : BaseLogModelSource, IDisposable
         logReader = new EventLog(logName);
         name = logName;
 
-        PopulateAsync().GetAwaiter().GetResult();
+        Populate();
     }
 
     /// <inheritdoc/>
@@ -82,7 +82,7 @@ internal sealed class ClassicLogModel : BaseLogModelSource, IDisposable
     }
 
     /// <inheritdoc/>
-    public override Task PopulateAsync() => Task.Run(() =>
+    public override void Populate()
     {
         modelEntries.Clear();
         totalEntriesRead = 0;
@@ -149,5 +149,5 @@ internal sealed class ClassicLogModel : BaseLogModelSource, IDisposable
 
             modelEntries.Reverse();
         }
-    });
+    }
 }
