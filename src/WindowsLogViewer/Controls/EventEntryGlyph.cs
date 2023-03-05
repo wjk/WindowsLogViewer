@@ -41,40 +41,40 @@ namespace WindowsLogViewer.Controls
             LinearGradientBrush brush;
 
             errorStyle = new Style(typeof(Ellipse));
-            errorStyle.Setters.Add(new Setter(Ellipse.WidthProperty, 20));
-            errorStyle.Setters.Add(new Setter(Ellipse.HeightProperty, 20));
+            errorStyle.Setters.Add(new Setter(Ellipse.WidthProperty, 20.0));
+            errorStyle.Setters.Add(new Setter(Ellipse.HeightProperty, 20.0));
 
             brush = new LinearGradientBrush(Color.FromArgb(255, 0xF9, 0x34, 0x34), Color.FromArgb(255, 0xD0, 0x34, 0x34),
                 new Point(0, 0), new Point(1, 0));
             errorStyle.Setters.Add(new Setter(Ellipse.FillProperty, brush));
 
             warningStyle = new Style(typeof(Ellipse));
-            warningStyle.Setters.Add(new Setter(Ellipse.WidthProperty, 18));
-            warningStyle.Setters.Add(new Setter(Ellipse.HeightProperty, 18));
+            warningStyle.Setters.Add(new Setter(Ellipse.WidthProperty, 18.0));
+            warningStyle.Setters.Add(new Setter(Ellipse.HeightProperty, 18.0));
 
             brush = new LinearGradientBrush(Color.FromArgb(255, 0xF9, 0xF1, 0x34), Color.FromArgb(255, 0xB9, 0xB3, 0x28),
                 new Point(0, 0), new Point(1, 0));
             warningStyle.Setters.Add(new Setter(Ellipse.FillProperty, brush));
 
             informationStyle = new Style(typeof(Ellipse));
-            informationStyle.Setters.Add(new Setter(Ellipse.WidthProperty, 14));
-            informationStyle.Setters.Add(new Setter(Ellipse.HeightProperty, 14));
+            informationStyle.Setters.Add(new Setter(Ellipse.WidthProperty, 14.0));
+            informationStyle.Setters.Add(new Setter(Ellipse.HeightProperty, 14.0));
 
             brush = new LinearGradientBrush(Color.FromArgb(255, 0xB6, 0xFF, 0xF8), Color.FromArgb(255, 0x88, 0xD0, 0xCB),
                 new Point(0, 0), new Point(0, 1));
             informationStyle.Setters.Add(new Setter(Ellipse.FillProperty, brush));
 
             auditSuccessStyle = new Style(typeof(Ellipse));
-            auditSuccessStyle.Setters.Add(new Setter(Ellipse.WidthProperty, 12));
-            auditSuccessStyle.Setters.Add(new Setter(Ellipse.HeightProperty, 12));
+            auditSuccessStyle.Setters.Add(new Setter(Ellipse.WidthProperty, 12.0));
+            auditSuccessStyle.Setters.Add(new Setter(Ellipse.HeightProperty, 12.0));
 
             brush = new LinearGradientBrush(Color.FromArgb(255, 0x77, 0xFF, 0x5A), Color.FromArgb(255, 0x56, 0xC8, 0x3E),
                 new Point(0, 0), new Point(0, 1));
             auditSuccessStyle.Setters.Add(new Setter(Ellipse.FillProperty, brush));
 
             auditFailureStyle = new Style(typeof(Ellipse));
-            auditFailureStyle.Setters.Add(new Setter(Ellipse.WidthProperty, 12));
-            auditFailureStyle.Setters.Add(new Setter(Ellipse.HeightProperty, 12));
+            auditFailureStyle.Setters.Add(new Setter(Ellipse.WidthProperty, 12.0));
+            auditFailureStyle.Setters.Add(new Setter(Ellipse.HeightProperty, 12.0));
 
             brush = new LinearGradientBrush(Color.FromArgb(255, 0xED, 0x58, 0x58), Color.FromArgb(255, 0xBB, 0x40, 0x40),
                 new Point(0, 0), new Point(1, 0));
