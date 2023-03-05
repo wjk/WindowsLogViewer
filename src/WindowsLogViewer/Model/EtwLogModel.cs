@@ -113,12 +113,9 @@ internal sealed class EtwLogModel : BaseLogModelSource, IDisposable
 
         reader.BatchSize = 512;
 
-        while (true)
+        EventRecord? logEntry = reader.ReadEvent();
+        while (logEntry != null)
         {
-            EventRecord? logEntry = reader.ReadEvent();
-
-            if (logEntry == null) break;
-
             LogModelEntry modelEntry;
 
             try
@@ -138,6 +135,8 @@ internal sealed class EtwLogModel : BaseLogModelSource, IDisposable
                         _ => LogEntrySeverity.Unknown
                     },
                 };
+
+                entries.Append(modelEntry);
             }
             catch
             {
@@ -145,10 +144,9 @@ internal sealed class EtwLogModel : BaseLogModelSource, IDisposable
                 // that sent the event is not currently registered with the system.
                 // This is a very bizarre place to fail. If this happens, continue
                 // on to the next event.
-                continue;
             }
 
-            entries.Append(modelEntry);
+            logEntry = reader.ReadEvent();
         }
 
         entries.Reverse();
