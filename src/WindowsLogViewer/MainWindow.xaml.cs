@@ -40,20 +40,29 @@ namespace LogViewer
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            DataHolder holder = new DataHolder();
-            var sources = holder.Sources;
-
-            sources.Add(ClassicLogModel.ApplicationLog);
-            sources.Add(ClassicLogModel.SecurityLog);
-            sources.Add(ClassicLogModel.SetupLog);
-            sources.Add(ClassicLogModel.SystemLog);
-
-            DataContext = holder;
-
             Task.Run(() =>
             {
+                DataHolder holder = new DataHolder();
+                var sources = holder.Sources;
+
+                sources.Add(ClassicLogModel.ApplicationLog);
+                sources.Add(ClassicLogModel.SetupLog);
+                sources.Add(ClassicLogModel.SystemLog);
+
+                try
+                {
+                    sources.Add(ClassicLogModel.SecurityLog);
+                }
+                catch
+                {
+                    // The above will throw if we are not running elevated.
+                    // Ignore the exception.
+                }
+
                 foreach (var source in EtwLogModel.AllLogs)
                     Dispatcher.InvokeAsync(() => sources.Add(source));
+
+                Dispatcher.Invoke(() => this.DataContext = holder);
             });
         }
 
