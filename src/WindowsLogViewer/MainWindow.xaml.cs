@@ -77,8 +77,11 @@ namespace LogViewer
 
         private void LogChooser_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            BaseLogModelSource? source = (BaseLogModelSource?)LogChooser.SelectedItem;
+            if (source != null) source.Populate();
+
             DataHolder holder = (DataHolder)DataContext;
-            holder.CurrentSource = (BaseLogModelSource?)LogChooser.SelectedItem;
+            holder.CurrentSource = source;
             holder.OnPropertyChanged(nameof(holder.CurrentSource));
 
             if (holder.CurrentSource != null)
