@@ -84,6 +84,8 @@ internal sealed class ClassicLogModel : BaseLogModelSource, IDisposable
     /// <inheritdoc/>
     public override Task PopulateAsync() => Task.Run(() =>
     {
+        modelEntries.Clear();
+
         EventLogEntryCollection allEvents = logReader.Entries;
         int count;
 
@@ -96,7 +98,6 @@ internal sealed class ClassicLogModel : BaseLogModelSource, IDisposable
             // Sometimes, this log cannot be loaded. When this happens, the above line will throw.
             return;
         }
-
 
         for (int i = count; i >= 0; i--)
         {

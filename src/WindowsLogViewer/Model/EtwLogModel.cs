@@ -114,6 +114,7 @@ internal sealed class EtwLogModel : BaseLogModelSource, IDisposable
     /// <inheritdoc/>
     public override Task PopulateAsync() => Task.Run(() =>
     {
+        entries.Clear();
         reader.BatchSize = 512;
 
         while (true)
@@ -139,5 +140,7 @@ internal sealed class EtwLogModel : BaseLogModelSource, IDisposable
 
             entries.Append(modelEntry);
         }
+
+        entries.Reverse();
     });
 }
