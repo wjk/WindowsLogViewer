@@ -57,11 +57,24 @@ internal sealed class ClassicLogModel : BaseLogModelSource, IDisposable
     /// <inheritdoc/>
     public override IReadOnlyList<LogModelEntry> Read(int entryCount)
     {
+        if (totalEntriesRead >= modelEntries.Count)
+        {
+            // Easy out if we know there are no more events to read.
+            return new List<LogModelEntry>();
+        }
+
         List<LogModelEntry> retval = new List<LogModelEntry>();
 
         for (int i = 0; i < entryCount; i++)
         {
-            retval.Add(modelEntries[totalEntriesRead + i]);
+            int index = totalEntriesRead + i;
+            if (index > modelEntries.Count)
+            {
+                totalEntriesRead = index;
+                return retval;
+            }
+
+            retval.Add(modelEntries[index]);
         }
 
         totalEntriesRead += entryCount;
