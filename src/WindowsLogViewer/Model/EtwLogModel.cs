@@ -109,6 +109,8 @@ internal sealed class EtwLogModel : BaseLogModelSource, IDisposable
     public override Task PopulateAsync() => Task.Run(() =>
     {
         entries.Clear();
+        totalEntriesRead = 0;
+
         reader.BatchSize = 512;
 
         while (true)

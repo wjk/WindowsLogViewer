@@ -85,6 +85,7 @@ internal sealed class ClassicLogModel : BaseLogModelSource, IDisposable
     public override Task PopulateAsync() => Task.Run(() =>
     {
         modelEntries.Clear();
+        totalEntriesRead = 0;
 
         EventLogEntryCollection allEvents = logReader.Entries;
         int count;
