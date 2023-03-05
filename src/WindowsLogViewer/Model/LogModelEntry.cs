@@ -22,7 +22,7 @@ internal struct LogModelEntry : IEquatable<LogModelEntry>
     /// programs that parse the system log in recognizing events of interest without
     /// having to do brittle string comparisons.
     /// </remarks>
-    public int EventId { get; set; }
+    public long EventId { get; set; }
 
     /// <summary>
     /// Gets or sets the message of the log entry.

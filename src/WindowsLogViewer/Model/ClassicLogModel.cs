@@ -66,7 +66,7 @@ internal sealed class ClassicLogModel : BaseLogModelSource, IDisposable
                 LogModelEntry modelEntry = new()
                 {
                     Message = entry.Message,
-                    EventId = Convert.ToInt32(entry.InstanceId),
+                    EventId = entry.InstanceId,
                     Source = entry.Source,
 
                     Severity = entry.EntryType switch
