@@ -49,6 +49,7 @@ internal sealed class EtwLogModel : BaseLogModelSource, IDisposable
     private string name;
     private readonly List<LogModelEntry> entries = new List<LogModelEntry>();
     private readonly EventLogReader reader;
+    private int totalEntriesRead = 0;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="EtwLogModel"/> class.
@@ -80,35 +81,28 @@ internal sealed class EtwLogModel : BaseLogModelSource, IDisposable
     /// <inheritdoc/>
     public override IReadOnlyList<LogModelEntry> Read(int entryCount)
     {
-        reader.BatchSize = entryCount;
+        if (totalEntriesRead >= entries.Count)
+        {
+            // Easy out if we know there are no more events to read.
+            return new List<LogModelEntry>();
+        }
 
-        List<LogModelEntry> modelEntries = new List<LogModelEntry>();
+        List<LogModelEntry> retval = new List<LogModelEntry>();
 
         for (int i = 0; i < entryCount; i++)
         {
-            EventRecord logEntry = reader.ReadEvent();
-            if (logEntry == null) break;
-
-            LogModelEntry modelEntry = new()
+            int index = totalEntriesRead + i;
+            if (index > entries.Count)
             {
-                Source = logEntry.ProviderName,
-                EventId = logEntry.Id,
-                Message = logEntry.FormatDescription(),
-                TimeStamp = logEntry.TimeCreated,
+                totalEntriesRead = index;
+                return retval;
+            }
 
-                Severity = logEntry.LevelDisplayName switch
-                {
-                    "Information" => LogEntrySeverity.Informational,
-                    "Warning" => LogEntrySeverity.Warning,
-                    "Error" => LogEntrySeverity.Error,
-                    _ => LogEntrySeverity.Unknown
-                },
-            };
-
-            modelEntries.Add(modelEntry);
+            retval.Add(entries[index]);
         }
 
-        return modelEntries;
+        totalEntriesRead += entryCount;
+        return retval;
     }
 
     /// <inheritdoc/>
