@@ -32,6 +32,7 @@ internal sealed class ClassicLogModel : BaseLogModelSource, IDisposable
     private readonly string name;
     private readonly EventLog logReader;
     private readonly List<LogModelEntry> modelEntries = new List<LogModelEntry>();
+    private int totalEntriesRead = 0;
 
     private ClassicLogModel(string logName)
     {
@@ -49,6 +50,46 @@ internal sealed class ClassicLogModel : BaseLogModelSource, IDisposable
     public void Dispose()
     {
         logReader.Dispose();
+    }
+
+    /// <inheritdoc/>
+    public override IReadOnlyList<LogModelEntry> Read(int entryCount)
+    {
+        List<LogModelEntry> entries = new List<LogModelEntry>();
+
+        for (int i = 0; i < entryCount; i++)
+        {
+            EventLogEntry entry = logReader.Entries[totalEntriesRead + i];
+
+            try
+            {
+                LogModelEntry modelEntry = new()
+                {
+                    Message = entry.Message,
+                    EventId = Convert.ToInt32(entry.InstanceId),
+                    Source = entry.Source,
+
+                    Severity = entry.EntryType switch
+                    {
+                        EventLogEntryType.SuccessAudit => LogEntrySeverity.AuditSuccess,
+                        EventLogEntryType.FailureAudit => LogEntrySeverity.AuditFailure,
+                        EventLogEntryType.Error => LogEntrySeverity.Error,
+                        EventLogEntryType.Warning => LogEntrySeverity.Warning,
+                        EventLogEntryType.Information => LogEntrySeverity.Informational,
+                        _ => throw new ArgumentException("Unknown EventLogEntryType")
+                    },
+                };
+
+                entries.Add(modelEntry);
+            }
+            finally
+            {
+                entry.Dispose();
+            }
+        }
+
+        totalEntriesRead += entryCount;
+        return entries;
     }
 
     /// <inheritdoc/>

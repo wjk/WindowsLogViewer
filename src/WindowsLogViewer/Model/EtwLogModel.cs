@@ -67,6 +67,39 @@ internal sealed class EtwLogModel : BaseLogModelSource, IDisposable
     }
 
     /// <inheritdoc/>
+    public override IReadOnlyList<LogModelEntry> Read(int entryCount)
+    {
+        reader.BatchSize = entryCount;
+
+        List<LogModelEntry> modelEntries = new List<LogModelEntry>();
+
+        for (int i = 0; i < entryCount; i++)
+        {
+            EventRecord logEntry = reader.ReadEvent();
+            if (logEntry == null) break;
+
+            LogModelEntry modelEntry = new()
+            {
+                Source = logEntry.ProviderName,
+                EventId = logEntry.Id,
+                Message = logEntry.FormatDescription(),
+
+                Severity = logEntry.LevelDisplayName switch
+                {
+                    "Information" => LogEntrySeverity.Informational,
+                    "Warning" => LogEntrySeverity.Warning,
+                    "Error" => LogEntrySeverity.Error,
+                    _ => LogEntrySeverity.Unknown
+                },
+            };
+
+            modelEntries.Add(modelEntry);
+        }
+
+        return modelEntries;
+    }
+
+    /// <inheritdoc/>
     public override Task PopulateAsync() => Task.Run(() =>
     {
         reader.BatchSize = 512;

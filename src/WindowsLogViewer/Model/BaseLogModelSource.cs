@@ -8,6 +8,17 @@ namespace WindowsLogViewer.Model;
 internal abstract class BaseLogModelSource
 {
     /// <summary>
+    /// Reads the specified number of entries from the log source.
+    /// </summary>
+    /// <param name="entryCount">
+    /// How many entries to read.
+    /// </param>
+    /// <returns>
+    /// The entries read.
+    /// </returns>
+    public abstract IReadOnlyList<LogModelEntry> Read(int entryCount);
+
+    /// <summary>
     /// Starts the process of reading the log on a background thread.
     /// </summary>
     /// <returns>
