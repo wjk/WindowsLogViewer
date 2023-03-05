@@ -38,6 +38,8 @@ internal sealed class ClassicLogModel : BaseLogModelSource, IDisposable
     {
         logReader = new EventLog(logName);
         name = logName;
+
+        PopulateAsync().GetAwaiter().GetResult();
     }
 
     /// <inheritdoc/>
@@ -55,41 +57,15 @@ internal sealed class ClassicLogModel : BaseLogModelSource, IDisposable
     /// <inheritdoc/>
     public override IReadOnlyList<LogModelEntry> Read(int entryCount)
     {
-        List<LogModelEntry> entries = new List<LogModelEntry>();
+        List<LogModelEntry> retval = new List<LogModelEntry>();
 
         for (int i = 0; i < entryCount; i++)
         {
-            EventLogEntry entry = logReader.Entries[totalEntriesRead + i];
-
-            try
-            {
-                LogModelEntry modelEntry = new()
-                {
-                    Message = entry.Message,
-                    EventId = entry.InstanceId,
-                    Source = entry.Source,
-
-                    Severity = entry.EntryType switch
-                    {
-                        EventLogEntryType.SuccessAudit => LogEntrySeverity.AuditSuccess,
-                        EventLogEntryType.FailureAudit => LogEntrySeverity.AuditFailure,
-                        EventLogEntryType.Error => LogEntrySeverity.Error,
-                        EventLogEntryType.Warning => LogEntrySeverity.Warning,
-                        EventLogEntryType.Information => LogEntrySeverity.Informational,
-                        _ => throw new ArgumentException("Unknown EventLogEntryType")
-                    },
-                };
-
-                entries.Add(modelEntry);
-            }
-            finally
-            {
-                entry.Dispose();
-            }
+            retval.Add(modelEntries[totalEntriesRead + i]);
         }
 
         totalEntriesRead += entryCount;
-        return entries;
+        return retval;
     }
 
     /// <inheritdoc/>
@@ -114,10 +90,16 @@ internal sealed class ClassicLogModel : BaseLogModelSource, IDisposable
 
             try
             {
+                if (entry.EntryType == 0)
+                {
+                    // I have no idea how this could happen, but it causes the severity determination below to crash.
+                    continue;
+                }
+
                 LogModelEntry modelEntry = new()
                 {
                     Message = entry.Message,
-                    EventId = Convert.ToInt32(entry.InstanceId),
+                    EventId = entry.InstanceId,
                     Source = entry.Source,
 
                     Severity = entry.EntryType switch
@@ -137,6 +119,8 @@ internal sealed class ClassicLogModel : BaseLogModelSource, IDisposable
             {
                 entry.Dispose();
             }
+
+            modelEntries.Reverse();
         }
     });
 }
