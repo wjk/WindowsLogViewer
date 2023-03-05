@@ -39,7 +39,7 @@ internal sealed class ClassicLogModel : BaseLogModelSource, IDisposable
         logReader = new EventLog(logName);
         name = logName;
 
-        Populate();
+        PopulatePrivate();
     }
 
     /// <inheritdoc/>
@@ -83,6 +83,11 @@ internal sealed class ClassicLogModel : BaseLogModelSource, IDisposable
 
     /// <inheritdoc/>
     public override void Populate()
+    {
+        // Do nothing, already populated in constructor.
+    }
+
+    private void PopulatePrivate()
     {
         modelEntries.Clear();
         totalEntriesRead = 0;
