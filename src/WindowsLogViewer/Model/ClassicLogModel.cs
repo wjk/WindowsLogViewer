@@ -72,7 +72,18 @@ internal sealed class ClassicLogModel : BaseLogModelSource, IDisposable
     public override Task PopulateAsync() => Task.Run(() =>
     {
         EventLogEntryCollection allEvents = logReader.Entries;
-        int count = allEvents.Count;
+        int count;
+
+        try
+        {
+            count = allEvents.Count;
+        }
+        catch
+        {
+            // Sometimes, this log cannot be loaded. When this happens, the above line will throw.
+            return;
+        }
+
 
         for (int i = count; i >= 0; i--)
         {
