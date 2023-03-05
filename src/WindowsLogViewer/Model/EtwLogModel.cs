@@ -119,21 +119,34 @@ internal sealed class EtwLogModel : BaseLogModelSource, IDisposable
 
             if (logEntry == null) break;
 
-            LogModelEntry modelEntry = new()
-            {
-                Source = logEntry.ProviderName,
-                EventId = logEntry.Id,
-                Message = logEntry.FormatDescription(),
-                TimeStamp = logEntry.TimeCreated,
+            LogModelEntry modelEntry;
 
-                Severity = logEntry.LevelDisplayName switch
+            try
+            {
+                modelEntry = new()
                 {
-                    "Information" => LogEntrySeverity.Informational,
-                    "Warning" => LogEntrySeverity.Warning,
-                    "Error" => LogEntrySeverity.Error,
-                    _ => LogEntrySeverity.Unknown
-                },
-            };
+                    Source = logEntry.ProviderName,
+                    EventId = logEntry.Id,
+                    Message = logEntry.FormatDescription(),
+                    TimeStamp = logEntry.TimeCreated,
+
+                    Severity = logEntry.LevelDisplayName switch
+                    {
+                        "Information" => LogEntrySeverity.Informational,
+                        "Warning" => LogEntrySeverity.Warning,
+                        "Error" => LogEntrySeverity.Error,
+                        _ => LogEntrySeverity.Unknown
+                    },
+                };
+            }
+            catch
+            {
+                // EventRecord.LevelDisplayName can throw an exception if the module
+                // that sent the event is not currently registered with the system.
+                // This is a very bizarre place to fail. If this happens, continue
+                // on to the next event.
+                continue;
+            }
 
             entries.Append(modelEntry);
         }
