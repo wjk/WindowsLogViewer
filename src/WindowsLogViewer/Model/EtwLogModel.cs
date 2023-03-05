@@ -20,7 +20,10 @@ internal sealed class EtwLogModel : BaseLogModelSource, IDisposable
         List<EtwLogModel> logList = new List<EtwLogModel>();
 
         EventLogSession session = EventLogSession.GlobalSession;
-        foreach (string logName in session.GetLogNames())
+        var names = session.GetLogNames().ToList();
+        names.Sort();
+
+        foreach (string logName in names)
         {
             try
             {
