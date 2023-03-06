@@ -36,7 +36,8 @@ namespace LogViewer
             MainWindowViewModel viewModel = new MainWindowViewModel(Dispatcher);
             DataContext = viewModel;
 
-            Task.Run(viewModel.PopulateSources);
+            Task task = Task.Run(viewModel.PopulateSources);
+            task.GetAwaiter().OnCompleted(() => LoadingProgressSpinner.SetCurrentValue(VisibilityProperty, Visibility.Collapsed));
         }
     }
 }

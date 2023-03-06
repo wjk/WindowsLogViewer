@@ -35,6 +35,9 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
+
+            <ui:ProgressRing x:Name="LoadingProgressSpinner" IsIndeterminate="True" Height="32" Width="32"
+                             Margin="0 0 8 0" Grid.Column="1" ToolTip="Loading log names..." />
         </Grid>
 
         <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible">
