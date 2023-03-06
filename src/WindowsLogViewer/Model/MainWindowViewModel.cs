@@ -112,7 +112,8 @@ internal sealed class MainWindowViewModel : INotifyPropertyChanged
         if (ActiveSource == null) return;
         foreach (var rawEvent in ActiveSource.Read(20))
         {
-            DisplayedEvents.Add(new LogModelEntry(rawEvent));
+            if (rawEvent != null)
+                DisplayedEvents.Add(new LogModelEntry(rawEvent));
         }
     }
 
