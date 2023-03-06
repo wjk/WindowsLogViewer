@@ -6,7 +6,6 @@
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:controls="clr-namespace:WindowsLogViewer.Controls"
         xmlns:model="clr-namespace:WindowsLogViewer.Model"
-        xmlns:sysevents="clr-namespace:System.Diagnostics.Eventing.Reader;assembly=System.Core"
         Title="Windows Log Viewer" Height="450" Width="800"
         Background="{DynamicResource ApplicationBackgroundBrush}"
         Loaded="Window_Loaded">
