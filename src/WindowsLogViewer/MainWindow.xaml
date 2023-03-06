@@ -6,6 +6,7 @@
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:controls="clr-namespace:WindowsLogViewer.Controls"
         xmlns:model="clr-namespace:WindowsLogViewer.Model"
+        xmlns:sysevents="clr-namespace:System.Diagnostics.Eventing.Reader;assembly=System.Core"
         Title="Windows Log Viewer" Height="450" Width="800"
         Background="{DynamicResource ApplicationBackgroundBrush}"
         Loaded="Window_Loaded">
@@ -29,20 +30,15 @@
             <ComboBox x:Name="LogChooser" Grid.Column="0" Margin="24 8" IsEditable="False" ItemsSource="{Binding Path=Sources}"
                       SelectionChanged="LogChooser_SelectionChanged">
                 <ComboBox.ItemTemplate>
-                    <DataTemplate DataType="model:BaseLogModelSource">
+                    <DataTemplate DataType="model:LogSource">
                         <TextBlock Text="{Binding Path=LogName}" />
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-
-            <StackPanel x:Name="LoadingSpinnerContainer" Grid.Column="1" ToolTipService.ToolTip="Loading classic logs..."
-                        Margin="0 0 8 0" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Right">
-                <ui:ProgressRing IsIndeterminate="True" Width="32" Height="32" />
-            </StackPanel>
         </Grid>
 
         <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible">
-            <ListBox x:Name="EventList" ItemsSource="{Binding Path=Entries}" Margin="12 0 0 0">
+            <ListBox x:Name="EventList" ItemsSource="{Binding Path=DisplayedEvents}" Margin="12 0 0 0">
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="model:LogModelEntry">
                         <Grid>

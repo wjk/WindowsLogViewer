@@ -15,22 +15,6 @@ namespace LogViewer
     /// </summary>
     public partial class MainWindow : Window
     {
-        private sealed class DataHolder : INotifyPropertyChanged
-        {
-            public ObservableCollection<BaseLogModelSource> Sources { get; } = new ObservableCollection<BaseLogModelSource>();
-
-            public BaseLogModelSource? CurrentSource { get; set; }
-
-            public ObservableCollection<LogModelEntry> Entries { get; } = new ObservableCollection<LogModelEntry>();
-
-            public void OnPropertyChanged(string name)
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-            }
-
-            public event PropertyChangedEventHandler? PropertyChanged;
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindow"/> class.
         /// </summary>
@@ -39,63 +23,20 @@ namespace LogViewer
             InitializeComponent();
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            LoadingSpinnerContainer.SetCurrentValue(VisibilityProperty, Visibility.Visible);
-
-            Task.Run(() =>
-            {
-                DataHolder holder = new DataHolder();
-                var sources = holder.Sources;
-
-                foreach (var source in EtwLogModel.AllLogs)
-                    Dispatcher.InvokeAsync(() => sources.Add(source));
-
-                Dispatcher.Invoke(() => this.DataContext = holder);
-
-                var model = ClassicLogModel.ApplicationLog;
-                Dispatcher.Invoke(() => sources.Insert(0, model));
-                model = ClassicLogModel.SetupLog;
-                Dispatcher.Invoke(() => sources.Insert(1, model));
-                model = ClassicLogModel.SystemLog;
-                Dispatcher.Invoke(() => sources.Insert(2, model));
-
-                try
-                {
-                    model = ClassicLogModel.SecurityLog;
-                    Dispatcher.Invoke(() => sources.Insert(1, model));
-                }
-                catch
-                {
-                    // The above will throw if we are not running elevated.
-                    // Ignore the exception.
-                }
-
-                Dispatcher.Invoke(() => LoadingSpinnerContainer.SetCurrentValue(VisibilityProperty, Visibility.Collapsed));
-            });
-        }
-
         private void LogChooser_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            BaseLogModelSource? source = (BaseLogModelSource?)LogChooser.SelectedItem;
-            if (source != null) source.Populate();
+            MainWindowViewModel viewModel = (MainWindowViewModel)DataContext;
+            viewModel.ActiveSource = (LogSource)LogChooser.SelectedItem;
+            viewModel.DisplayedEvents.Clear();
+            viewModel.ReadEvents();
+        }
 
-            DataHolder holder = (DataHolder)DataContext;
-            holder.CurrentSource = source;
-            holder.OnPropertyChanged(nameof(holder.CurrentSource));
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            MainWindowViewModel viewModel = new MainWindowViewModel(Dispatcher);
+            DataContext = viewModel;
 
-            if (holder.CurrentSource != null)
-            {
-                holder.Entries.Clear();
-
-                var results = holder.CurrentSource.Read(20);
-                foreach (var item in results) holder.Entries.Add(item);
-                holder.OnPropertyChanged(nameof(holder.Entries));
-            }
-            else
-            {
-                EventList.SetCurrentValue(ItemsControl.ItemsSourceProperty, null);
-            }
+            Task.Run(viewModel.PopulateSources);
         }
     }
 }
