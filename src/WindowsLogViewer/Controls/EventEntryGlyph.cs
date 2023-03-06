@@ -10,6 +10,9 @@ using WindowsLogViewer.Model;
 
 namespace WindowsLogViewer.Controls
 {
+    /// <summary>
+    /// Displays a small glyph depending on the a <see cref="LogEntrySeverity"/> value.
+    /// </summary>
     internal sealed class EventEntryGlyph : UserControl
     {
         /// <summary>Identifies the <see cref="Symbol"/> dependency property.</summary>
@@ -61,7 +64,7 @@ namespace WindowsLogViewer.Controls
             informationStyle.Setters.Add(new Setter(Ellipse.HeightProperty, 14.0));
 
             brush = new LinearGradientBrush(Color.FromArgb(255, 0xB6, 0xFF, 0xF8), Color.FromArgb(255, 0x88, 0xD0, 0xCB),
-                new Point(0, 0), new Point(0, 1));
+                new Point(0, 0), new Point(1, 0));
             informationStyle.Setters.Add(new Setter(Ellipse.FillProperty, brush));
 
             auditSuccessStyle = new Style(typeof(Ellipse));
@@ -69,7 +72,7 @@ namespace WindowsLogViewer.Controls
             auditSuccessStyle.Setters.Add(new Setter(Ellipse.HeightProperty, 12.0));
 
             brush = new LinearGradientBrush(Color.FromArgb(255, 0x77, 0xFF, 0x5A), Color.FromArgb(255, 0x56, 0xC8, 0x3E),
-                new Point(0, 0), new Point(0, 1));
+                new Point(0, 0), new Point(1, 0));
             auditSuccessStyle.Setters.Add(new Setter(Ellipse.FillProperty, brush));
 
             auditFailureStyle = new Style(typeof(Ellipse));
@@ -81,6 +84,9 @@ namespace WindowsLogViewer.Controls
             auditFailureStyle.Setters.Add(new Setter(Ellipse.FillProperty, brush));
         }
 
+        /// <summary>
+        /// Gets or sets the <see cref="LogEntrySeverity"/> to be displayed.
+        /// </summary>
         public LogEntrySeverity Symbol
         {
             get => (LogEntrySeverity)GetValue(SymbolProperty);
