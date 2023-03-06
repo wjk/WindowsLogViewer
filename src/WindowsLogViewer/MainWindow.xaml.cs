@@ -1,8 +1,5 @@
 ﻿// Copyright (c) William Kent and contributors. All rights reserved.
 
-using System.Collections.Immutable;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 
