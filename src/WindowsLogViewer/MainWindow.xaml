@@ -40,8 +40,10 @@
                              Margin="0 0 8 0" Grid.Column="1" ToolTip="Loading log names..." />
         </Grid>
 
-        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible">
-            <ListBox x:Name="EventList" ItemsSource="{Binding Path=DisplayedEvents}" Margin="12 0 0 0">
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible"
+                      ScrollChanged="MainScroller_ScrollChanged" x:Name="MainScroller">
+            <ListBox x:Name="EventList" ItemsSource="{Binding Path=DisplayedEvents}" Margin="12 0 0 0"
+                         VirtualizingPanel.IsVirtualizing="True">
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="model:LogModelEntry">
                         <Grid>
