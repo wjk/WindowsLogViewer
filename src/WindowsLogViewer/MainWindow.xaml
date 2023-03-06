@@ -26,7 +26,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <ComboBox x:Name="LogChooser" Grid.Column="0" Margin="24 8" IsEditable="False" ItemsSource="{Binding Path=Sources}"
+            <ComboBox x:Name="LogChooser" Grid.Column="0" Margin="24 8" IsEditable="False" IsEnabled="False" ItemsSource="{Binding Path=Sources}"
                       SelectionChanged="LogChooser_SelectionChanged">
                 <ComboBox.ItemTemplate>
                     <DataTemplate DataType="model:LogSource">

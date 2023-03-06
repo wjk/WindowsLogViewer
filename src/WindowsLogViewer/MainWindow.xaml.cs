@@ -37,7 +37,12 @@ namespace LogViewer
             DataContext = viewModel;
 
             Task task = Task.Run(viewModel.PopulateSources);
-            task.GetAwaiter().OnCompleted(() => LoadingProgressSpinner.SetCurrentValue(VisibilityProperty, Visibility.Collapsed));
+            task.GetAwaiter().OnCompleted(() =>
+            {
+                // This is run on the UI thread.
+                LoadingProgressSpinner.SetCurrentValue(VisibilityProperty, Visibility.Collapsed);
+                LogChooser.SetCurrentValue(IsEnabledProperty, true);
+            });
         }
 
         private void MainScroller_ScrollChanged(object sender, ScrollChangedEventArgs e)
