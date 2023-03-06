@@ -54,17 +54,19 @@ internal sealed class MainWindowViewModel : INotifyPropertyChanged
                 return;
             }
 
-            dispatcher.Invoke(() => Sources.Add(source));
+            Sources.Add(source);
         }
 
         AddSource("Application");
         AddSource("Security");
         AddSource("Setup");
         AddSource("System");
+        dispatcher.Invoke(() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Sources))));
 
         var logNames = session.GetProviderNames().ToList();
         logNames.Sort();
 
+        int count = 0;
         foreach (string logName in logNames)
         {
             if (seenSources.Contains(logName))
@@ -79,18 +81,30 @@ internal sealed class MainWindowViewModel : INotifyPropertyChanged
                     continue;
 
                 AddSource(logName);
+
+                if (count == 5)
+                {
+                    dispatcher.Invoke(() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Sources))));
+                    count = 0;
+                }
+                else
+                {
+                    count++;
+                }
             }
             catch
             {
                 // Some logs require elevation to access. Ignore those.
             }
         }
+
+        dispatcher.Invoke(() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Sources))));
     }
 
     /// <summary>
     /// Gets or sets a collection of the log sources that are available.
     /// </summary>
-    public ObservableCollection<LogSource> Sources { get; set; } = new ObservableCollection<LogSource>();
+    public List<LogSource> Sources { get; set; } = new List<LogSource>();
 
     private LogSource? _activeSource;
 
