@@ -55,7 +55,7 @@
                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             <TextBlock Grid.Column="1" Text="{Binding Path=ShortTitle}" HorizontalAlignment="Left" VerticalAlignment="Center"
                                        TextTrimming="CharacterEllipsis" />
-                            <TextBlock Grid.Column="2" Text="{Binding Path=TimeStamp, Converter={StaticResource EventDateConverter}}" FontSize="9"
+                            <TextBlock Grid.Column="2" Text="{Binding Path=TimeStamp, Converter={StaticResource EventDateConverter}}"
                                        HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Grid>
                     </DataTemplate>
