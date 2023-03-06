@@ -35,73 +35,8 @@ internal sealed class MainWindowViewModel : INotifyPropertyChanged
     /// </summary>
     public void PopulateSources()
     {
-        HashSet<string> seenSources = new HashSet<string>()
-        {
-            "Application", "Security", "Setup", "System",
-        };
-
-        void AddSource(string sourceName)
-        {
-            LogSource source;
-
-            try
-            {
-                source = new LogSource(sourceName);
-            }
-            catch
-            {
-                // new LogSource() can throw if the user does not have permission to access that log.
-                return;
-            }
-
-            Sources.Add(source);
-        }
-
-        AddSource("Application");
-        AddSource("Security");
-        AddSource("Setup");
-        AddSource("System");
-        dispatcher.Invoke(() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Sources))));
-
-        EventLogSession session = EventLogSession.GlobalSession;
-        var logNames = session.GetProviderNames().ToList();
-        logNames.Sort();
-
-        int count = 0;
-        foreach (string logName in logNames)
-        {
-            if (seenSources.Contains(logName))
-                continue;
-
-            try
-            {
-                Debug.WriteLine($"Processing log {logName}");
-                EventLogConfiguration configuration = new EventLogConfiguration(logName, session);
-
-                // Skip analytical and debug logs, just as the built-in Event Viewer does.
-                if (configuration.LogType == EventLogType.Analytical || configuration.LogType == EventLogType.Debug)
-                    continue;
-
-                AddSource(logName);
-                Debug.WriteLine($"Processed log {logName}");
-
-                if (count == 5)
-                {
-                    dispatcher.Invoke(() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Sources))));
-                    count = 0;
-                }
-                else
-                {
-                    count++;
-                }
-            }
-            catch
-            {
-                // Some logs require elevation to access. Ignore those.
-            }
-        }
-
-        Debug.WriteLine("Processed all logs");
+        Sources.Clear();
+        Sources.AddRange(LogSource.AllSources);
         dispatcher.Invoke(() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Sources))));
     }
 

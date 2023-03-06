@@ -1,5 +1,6 @@
 ﻿// Copyright (c) William Kent and contributors. All rights reserved.
 
+using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 
 namespace WindowsLogViewer.Model;
@@ -9,6 +10,66 @@ namespace WindowsLogViewer.Model;
 /// </summary>
 internal sealed class LogSource
 {
+    /// <summary>
+    /// Gets a list of the names of all the ETW logs in the system, sorted appropriately for display to the user.
+    /// This is calculated once and then cached.
+    /// </summary>
+    public static IReadOnlyList<LogSource> AllSources => new Lazy<IReadOnlyList<LogSource>>(() =>
+    {
+        List<LogSource> retval = new List<LogSource>();
+
+        HashSet<string> seenSources = new HashSet<string>();
+        retval.Add(new LogSource("Application"));
+        seenSources.Add("Application");
+
+        try
+        {
+            retval.Add(new LogSource("Security"));
+        }
+        catch (UnauthorizedAccessException)
+        {
+            // Access to this log requires administrator privileges. If the
+            // app is not running elevated, just skip this log.
+        }
+
+        seenSources.Add("Security");
+
+        retval.Add(new LogSource("Setup"));
+        seenSources.Add("Setup");
+        retval.Add(new LogSource("System"));
+        seenSources.Add("System");
+
+        EventLogSession session = EventLogSession.GlobalSession;
+        var names = session.GetLogNames().ToList();
+        names.Sort();
+
+        foreach (string logName in names)
+        {
+            if (seenSources.Contains(logName)) continue;
+
+            try
+            {
+                Debug.WriteLine($"Starting to process log {logName}");
+                EventLogConfiguration config = new EventLogConfiguration(logName, session);
+
+                // Skip analytical and debug logs, just as the built-in Event Viewer does.
+                if (config.LogType == EventLogType.Analytical || config.LogType == EventLogType.Debug)
+                {
+                    continue;
+                }
+
+                retval.Add(new LogSource(logName));
+                Debug.WriteLine($"Successfully processed log {logName}");
+            }
+            catch
+            {
+                // Some logs require elevation to read. Skip those.
+            }
+        }
+
+        return retval;
+    }).Value;
+
     private EventLogReader logReader;
 
     /// <summary>
@@ -17,13 +78,13 @@ internal sealed class LogSource
     /// <param name="name">
     /// The name of the log to read.
     /// </param>
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor (value set in ResetReader() function)
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor (set in ResetReader() method)
     public LogSource(string name)
     {
         LogName = name;
         ResetReader();
-    }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor
+    }
 
     /// <summary>
     /// Gets the name of the log being read.
