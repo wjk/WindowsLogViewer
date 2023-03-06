@@ -42,6 +42,10 @@ namespace LogViewer
                 // This is run on the UI thread.
                 LoadingProgressSpinner.SetCurrentValue(VisibilityProperty, Visibility.Collapsed);
                 LogChooser.SetCurrentValue(IsEnabledProperty, true);
+
+                // This line populates the list box with the contents of the first log in the list
+                // at the time the log list combo box is enabled.
+                LogChooser.SetCurrentValue(ComboBox.SelectedItemProperty, LogChooser.Items[0]);
             });
         }
 
