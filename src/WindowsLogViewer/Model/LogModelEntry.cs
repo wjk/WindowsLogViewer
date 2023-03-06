@@ -80,7 +80,9 @@ internal struct LogModelEntry : IEquatable<LogModelEntry>
     public override int GetHashCode()
     {
         int sourceHash = Source?.GetHashCode() ?? 0;
-        return Severity.GetHashCode() ^ EventId.GetHashCode() ^ Message.GetHashCode() ^ sourceHash ^ TimeStamp.GetHashCode();
+        int messageHash = Message?.GetHashCode() ?? 0;
+        int timeHash = TimeStamp?.GetHashCode() ?? 0;
+        return Severity.GetHashCode() ^ EventId.GetHashCode() ^ messageHash ^ sourceHash ^ timeHash;
     }
 
     /// <summary>
