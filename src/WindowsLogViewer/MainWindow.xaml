@@ -26,8 +26,8 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <ComboBox x:Name="LogChooser" Grid.Column="0" Margin="24 8" IsEditable="False" IsEnabled="False" ItemsSource="{Binding Path=Sources}"
-                      SelectionChanged="LogChooser_SelectionChanged">
+            <ComboBox x:Name="LogChooser" Grid.Column="0" Margin="12 12 24 8" IsEditable="False" IsEnabled="False"
+                      ItemsSource="{Binding Path=Sources}" SelectionChanged="LogChooser_SelectionChanged">
                 <ComboBox.ItemTemplate>
                     <DataTemplate DataType="model:LogSource">
                         <TextBlock Text="{Binding Path=LogName}" />
@@ -36,7 +36,7 @@
             </ComboBox>
 
             <ui:ProgressRing x:Name="LoadingProgressSpinner" IsIndeterminate="True" Height="32" Width="32"
-                             Margin="0 0 8 0" Grid.Column="1" ToolTip="Loading log names..." />
+                             Margin="0 0 12 0" Grid.Column="1" ToolTip="Loading log names..." />
         </Grid>
 
         <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible"
