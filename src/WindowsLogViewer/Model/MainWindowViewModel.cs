@@ -2,6 +2,7 @@
 
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Eventing.Reader;
 using System.Runtime.CompilerServices;
@@ -74,13 +75,15 @@ internal sealed class MainWindowViewModel : INotifyPropertyChanged
 
             try
             {
-                EventLogConfiguration configuration = new EventLogConfiguration(logName);
+                Debug.WriteLine($"Processing log {logName}");
+                EventLogConfiguration configuration = new EventLogConfiguration(logName, session);
 
                 // Skip analytical and debug logs, just as the built-in Event Viewer does.
                 if (configuration.LogType == EventLogType.Analytical || configuration.LogType == EventLogType.Debug)
                     continue;
 
                 AddSource(logName);
+                Debug.WriteLine($"Processed log {logName}");
 
                 if (count == 5)
                 {
@@ -98,6 +101,7 @@ internal sealed class MainWindowViewModel : INotifyPropertyChanged
             }
         }
 
+        Debug.WriteLine("Processed all logs");
         dispatcher.Invoke(() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Sources))));
     }
 
