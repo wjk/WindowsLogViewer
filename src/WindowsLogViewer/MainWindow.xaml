@@ -6,7 +6,7 @@
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:controls="clr-namespace:WindowsLogViewer.Controls"
         xmlns:model="clr-namespace:WindowsLogViewer.Model"
-        Title="Windows Log Viewer" Height="450" Width="800"
+        Title="Windows Log Viewer"
         Background="{DynamicResource ApplicationBackgroundBrush}"
         Loaded="Window_Loaded">
     <Window.Resources>
@@ -84,16 +84,16 @@
                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
             </ScrollViewer>
 
-            <Label Content="Source:" FontWeight="SemiBold" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="0" Margin="12 12 8 12" />
+            <Label Content="Source:" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="0" Margin="12 12 8 12" />
             <Label Content="{Binding Source={x:Reference EventList}, Path=SelectedItem.Source}" Grid.Row="1" Grid.Column="1" Margin="8 12 12 12" />
 
-            <Label Content="Event ID:" FontWeight="SemiBold" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="2" Margin="0 12 12 12" />
+            <Label Content="Event ID:" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="2" Margin="0 12 12 12" />
             <Label Content="{Binding Source={x:Reference EventList}, Path=SelectedItem.EventId}" Grid.Row="1" Grid.Column="3" Margin="8 12 12 12" />
 
-            <Label Content="Level:" FontWeight="SemiBold" HorizontalAlignment="Right" Grid.Row="2" Grid.Column="0" Margin="12 0 8 12" />
+            <Label Content="Level:" HorizontalAlignment="Right" Grid.Row="2" Grid.Column="0" Margin="12 0 8 12" />
             <Label Content="{Binding Source={x:Reference EventList}, Path=SelectedItem.Severity}" Grid.Row="2" Grid.Column="1" Margin="8 0 12 12" />
 
-            <Label Content="Time Logged:" FontWeight="SemiBold" HorizontalAlignment="Right" Grid.Row="2" Grid.Column="2" Margin="12 0 8 12" />
+            <Label Content="Time Logged:" HorizontalAlignment="Right" Grid.Row="2" Grid.Column="2" Margin="12 0 8 12" />
             <Label Content="{Binding Source={x:Reference EventList}, Path=SelectedItem.TimeStamp}" Grid.Row="2" Grid.Column="3" Margin="8 0 12 12" />
         </Grid>
     </Grid>
