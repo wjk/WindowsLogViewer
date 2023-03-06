@@ -53,18 +53,5 @@ namespace LogViewer
                 }
             }
         }
-
-        private bool IsUserVisible(FrameworkElement element, FrameworkElement container)
-        {
-            // This function is directly derived from the following Stack Overflow post:
-            // https://stackoverflow.com/questions/1517743/in-wpf-how-can-i-determine-whether-a-control-is-visible-to-the-user
-
-            if (!element.IsVisible)
-                return false;
-
-            Rect bounds = element.TransformToAncestor(container).TransformBounds(new Rect(0.0, 0.0, element.ActualWidth, element.ActualHeight));
-            Rect rect = new Rect(0.0, 0.0, container.ActualWidth, container.ActualHeight);
-            return rect.Contains(bounds);
-        }
     }
 }
