@@ -63,5 +63,38 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </ScrollViewer>
+
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <ScrollViewer Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalScrollBarVisibility="Hidden"
+                          VerticalScrollBarVisibility="Auto" Margin="12">
+                <Label Content="{Binding Source={x:Reference EventList}, Path=SelectedItem.Message}"
+                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            </ScrollViewer>
+
+            <Label Content="Source:" FontWeight="SemiBold" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="0" Margin="12 12 8 12" />
+            <Label Content="{Binding Source={x:Reference EventList}, Path=SelectedItem.Source}" Grid.Row="1" Grid.Column="1" Margin="8 12 12 12" />
+
+            <Label Content="Event ID:" FontWeight="SemiBold" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="2" Margin="0 12 12 12" />
+            <Label Content="{Binding Source={x:Reference EventList}, Path=SelectedItem.EventId}" Grid.Row="1" Grid.Column="3" Margin="8 12 12 12" />
+
+            <Label Content="Level:" FontWeight="SemiBold" HorizontalAlignment="Right" Grid.Row="2" Grid.Column="0" Margin="12 0 8 12" />
+            <Label Content="{Binding Source={x:Reference EventList}, Path=SelectedItem.Severity}" Grid.Row="2" Grid.Column="1" Margin="8 0 12 12" />
+
+            <Label Content="Time Logged:" FontWeight="SemiBold" HorizontalAlignment="Right" Grid.Row="2" Grid.Column="2" Margin="12 0 8 12" />
+            <Label Content="{Binding Source={x:Reference EventList}, Path=SelectedItem.TimeStamp}" Grid.Row="2" Grid.Column="3" Margin="8 0 12 12" />
+        </Grid>
     </Grid>
 </Window>
