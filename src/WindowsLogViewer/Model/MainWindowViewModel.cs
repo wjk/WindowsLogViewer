@@ -25,7 +25,7 @@ internal sealed class MainWindowViewModel : INotifyPropertyChanged
     /// </param>
     public MainWindowViewModel(Dispatcher mainThreadDispatcher)
     {
-        this.dispatcher = mainThreadDispatcher;
+        dispatcher = mainThreadDispatcher;
     }
 
     /// <summary>
@@ -34,7 +34,6 @@ internal sealed class MainWindowViewModel : INotifyPropertyChanged
     /// </summary>
     public void PopulateSources()
     {
-        EventLogSession session = EventLogSession.GlobalSession;
         HashSet<string> seenSources = new HashSet<string>()
         {
             "Application", "Security", "Setup", "System",
@@ -63,6 +62,7 @@ internal sealed class MainWindowViewModel : INotifyPropertyChanged
         AddSource("System");
         dispatcher.Invoke(() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Sources))));
 
+        EventLogSession session = EventLogSession.GlobalSession;
         var logNames = session.GetProviderNames().ToList();
         logNames.Sort();
 
