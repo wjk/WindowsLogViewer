@@ -29,6 +29,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{BE4317
 		..\build\StyleCop.ruleset = ..\build\StyleCop.ruleset
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfUI.ProgressRing", "WpfUI.ProgressRing\WpfUI.ProgressRing.csproj", "{FBE6FBFC-1A10-4697-8366-562E68567EE0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{AA8AD1B4-E58D-4DCA-99D5-C8F0C5466865}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA8AD1B4-E58D-4DCA-99D5-C8F0C5466865}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA8AD1B4-E58D-4DCA-99D5-C8F0C5466865}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBE6FBFC-1A10-4697-8366-562E68567EE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBE6FBFC-1A10-4697-8366-562E68567EE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBE6FBFC-1A10-4697-8366-562E68567EE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBE6FBFC-1A10-4697-8366-562E68567EE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
