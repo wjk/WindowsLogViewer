@@ -4,7 +4,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:modern="http://schemas.modernwpf.com/2019"
-        xmlns:ui="clr-namespace:WpfUI;assembly=WpfUI.ProgressRing"
         xmlns:controls="clr-namespace:WindowsLogViewer.Controls"
         xmlns:model="clr-namespace:WindowsLogViewer.Model"
         Title="Windows Log Viewer"

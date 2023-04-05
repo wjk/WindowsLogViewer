@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WpfUI.ProgressRing\WpfUI.ProgressRing.csproj" />
     <PackageReference Include="ModernWpfUI" Version="0.9.6" />
   </ItemGroup>
 

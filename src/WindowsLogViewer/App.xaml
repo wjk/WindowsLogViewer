@@ -8,8 +8,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <modern:ThemeResources />
                 <modern:XamlControlsResources />
-
-                <ResourceDictionary Source="/WpfUI.ProgressRing;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
