@@ -102,7 +102,7 @@ internal struct LogModelEntry : IEquatable<LogModelEntry>
     {
         get
         {
-            return $"{EventId} — {Source}";
+            return $"{Source} — {EventId}";
         }
     }
 }
