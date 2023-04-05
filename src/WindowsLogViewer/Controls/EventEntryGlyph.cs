@@ -48,7 +48,7 @@ namespace WindowsLogViewer.Controls
             errorStyle.Setters.Add(new Setter(Ellipse.HeightProperty, 16.0));
 
             brush = new LinearGradientBrush(Color.FromArgb(255, 0xF9, 0x34, 0x34), Color.FromArgb(255, 0xD0, 0x34, 0x34),
-                new Point(0, 0), new Point(1, 0));
+                new Point(0, 0), new Point(0, 1));
             errorStyle.Setters.Add(new Setter(Ellipse.FillProperty, brush));
 
             warningStyle = new Style(typeof(Ellipse));
@@ -56,7 +56,7 @@ namespace WindowsLogViewer.Controls
             warningStyle.Setters.Add(new Setter(Ellipse.HeightProperty, 16.0));
 
             brush = new LinearGradientBrush(Color.FromArgb(255, 0xF9, 0xF1, 0x34), Color.FromArgb(255, 0xB9, 0xB3, 0x28),
-                new Point(0, 0), new Point(1, 0));
+                new Point(0, 0), new Point(0, 1));
             warningStyle.Setters.Add(new Setter(Ellipse.FillProperty, brush));
 
             informationStyle = new Style(typeof(Ellipse));
@@ -64,7 +64,7 @@ namespace WindowsLogViewer.Controls
             informationStyle.Setters.Add(new Setter(Ellipse.HeightProperty, 10.0));
 
             brush = new LinearGradientBrush(Color.FromArgb(255, 0xB6, 0xFF, 0xF8), Color.FromArgb(255, 0x88, 0xD0, 0xCB),
-                new Point(0, 0), new Point(1, 0));
+                new Point(0, 0), new Point(0, 1));
             informationStyle.Setters.Add(new Setter(Ellipse.FillProperty, brush));
 
             auditSuccessStyle = new Style(typeof(Ellipse));
@@ -72,7 +72,7 @@ namespace WindowsLogViewer.Controls
             auditSuccessStyle.Setters.Add(new Setter(Ellipse.HeightProperty, 12.0));
 
             brush = new LinearGradientBrush(Color.FromArgb(255, 0x77, 0xFF, 0x5A), Color.FromArgb(255, 0x56, 0xC8, 0x3E),
-                new Point(0, 0), new Point(1, 0));
+                new Point(0, 0), new Point(0, 1));
             auditSuccessStyle.Setters.Add(new Setter(Ellipse.FillProperty, brush));
 
             auditFailureStyle = new Style(typeof(Ellipse));
@@ -80,7 +80,7 @@ namespace WindowsLogViewer.Controls
             auditFailureStyle.Setters.Add(new Setter(Ellipse.HeightProperty, 12.0));
 
             brush = new LinearGradientBrush(Color.FromArgb(255, 0xED, 0x58, 0x58), Color.FromArgb(255, 0xBB, 0x40, 0x40),
-                new Point(0, 0), new Point(1, 0));
+                new Point(0, 0), new Point(0, 1));
             auditFailureStyle.Setters.Add(new Setter(Ellipse.FillProperty, brush));
         }
 
