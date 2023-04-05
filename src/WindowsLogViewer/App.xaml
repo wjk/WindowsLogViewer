@@ -8,6 +8,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <wpfui:ThemesDictionary Theme="Dark" />
                 <wpfui:ControlsDictionary />
+
+                <ResourceDictionary Source="/WpfUI.ProgressRing;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
