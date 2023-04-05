@@ -37,7 +37,8 @@ namespace LogViewer
             task.GetAwaiter().OnCompleted(() =>
             {
                 // This is run on the UI thread.
-                LoadingProgressSpinner.SetCurrentValue(VisibilityProperty, Visibility.Collapsed);
+                LoadingLabel.SetCurrentValue(VisibilityProperty, Visibility.Collapsed);
+                LogChooser.SetCurrentValue(VisibilityProperty, Visibility.Visible);
                 LogChooser.SetCurrentValue(IsEnabledProperty, true);
 
                 // This line populates the list box with the contents of the first log in the list
