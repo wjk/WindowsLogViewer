@@ -26,7 +26,7 @@
             </Grid.ColumnDefinitions>
 
             <ComboBox x:Name="LogChooser" Grid.Column="0" Margin="12 12 24 8" IsEditable="False" IsEnabled="False"
-                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch"
                       ItemsSource="{Binding Path=Sources}" SelectionChanged="LogChooser_SelectionChanged">
                 <ComboBox.ItemTemplate>
                     <DataTemplate DataType="model:LogSource">
