@@ -23,13 +23,23 @@ internal struct LogModelEntry : IEquatable<LogModelEntry>
         Message = rawEvent.FormatDescription();
         TimeStamp = rawEvent.TimeCreated;
 
-        Severity = rawEvent.LevelDisplayName switch
+        try
         {
-            "Information" => LogEntrySeverity.Informational,
-            "Warning" => LogEntrySeverity.Warning,
-            "Error" => LogEntrySeverity.Error,
-            _ => LogEntrySeverity.Unknown
-        };
+            Severity = rawEvent.LevelDisplayName switch
+            {
+                "Information" => LogEntrySeverity.Informational,
+                "Warning" => LogEntrySeverity.Warning,
+                "Error" => LogEntrySeverity.Error,
+                _ => LogEntrySeverity.Unknown
+            };
+        }
+        catch
+        {
+            // Under certain circumstances, an otherwise-valid event log entry
+            // can still not load the resources needed to describe it. The Event
+            // Viewer displays an error message when this happens.
+            Severity = LogEntrySeverity.Unknown;
+        }
     }
 
     /// <summary>
