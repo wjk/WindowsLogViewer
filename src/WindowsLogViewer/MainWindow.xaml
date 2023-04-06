@@ -41,21 +41,28 @@
         <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible"
                       ScrollChanged="MainScroller_ScrollChanged" x:Name="MainScroller" Margin="12 0">
             <ListBox x:Name="EventList" ItemsSource="{Binding Path=DisplayedEvents}" VirtualizingPanel.IsVirtualizing="True">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="model:LogModelEntry">
-                        <Grid>
+                        <Grid HorizontalAlignment="Stretch">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="7*" />
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <controls:EventEntryGlyph Symbol="{Binding Path=Severity}" Grid.Column="0"
+                            <controls:EventEntryGlyph Grid.Column="0" Symbol="{Binding Path=Severity}"
                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             <TextBlock Grid.Column="1" Text="{Binding Path=ShortTitle}" HorizontalAlignment="Left" VerticalAlignment="Center"
                                        TextTrimming="CharacterEllipsis" />
                             <TextBlock Grid.Column="2" Text="{Binding Path=TimeStamp, Converter={StaticResource EventDateConverter}}"
-                                       HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4 0 0 0" />
+                                       HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 12 0" />
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
