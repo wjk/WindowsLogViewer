@@ -2,7 +2,7 @@
 
 using System.Windows;
 
-namespace LogViewer
+namespace WindowsLogViewer
 {
     /// <summary>
     /// Interaction logic for App.xaml.

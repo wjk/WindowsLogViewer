@@ -5,7 +5,7 @@ using System.Windows.Controls;
 
 using WindowsLogViewer.Model;
 
-namespace LogViewer
+namespace WindowsLogViewer
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml.
