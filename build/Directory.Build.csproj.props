@@ -39,6 +39,10 @@
     <Platform Condition="'$(Platform)' == ''">AnyCPU</Platform>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(PlatformTarget)' == ''">
+    <PlatformTarget>$(Platform)</PlatformTarget>
+  </PropertyGroup>
+
   <!-- ============== Code Analysis ============== -->
 
   <PropertyGroup Condition="'$(EnableNETAnalyzers)' == 'true'">
