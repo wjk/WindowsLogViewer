@@ -64,7 +64,23 @@
     <!-- build up the matrix of the project to RID -->
     <ItemGroup>
       <_MsixBundleRID Include="$(RuntimeIdentifiers)" />
-      <_MsixBundleProject Include="$(MSBuildProjectFile)" AdditionalProperties="RuntimeIdentifierOverride=%(_MsixBundleRID.Identity)" />
+    </ItemGroup>
+
+    <!-- Compute the platform for each RID, as it must be manually specified -->
+    <ItemGroup>
+      <_MsixBundleRID Update="@(_MsixBundleRID)" Condition="$([System.String]::Copy('%(Identity)').EndsWith('x64'))">
+        <Platform>x64</Platform>
+      </_MsixBundleRID>
+      <_MsixBundleRID Update="@(_MsixBundleRID)" Condition="$([System.String]::Copy('%(Identity)').EndsWith('x86'))">
+        <Platform>x86</Platform>
+      </_MsixBundleRID>
+      <_MsixBundleRID Update="@(_MsixBundleRID)" Condition="$([System.String]::Copy('%(Identity)').EndsWith('arm64'))">
+        <Platform>ARM64</Platform>
+      </_MsixBundleRID>
+    </ItemGroup>
+
+    <ItemGroup>
+      <_MsixBundleProject Include="$(MSBuildProjectFile)" AdditionalProperties="Configuration=$(Configuration);Platform=%(_MsixBundleRID.Platform);RuntimeIdentifierOverride=%(_MsixBundleRID.Identity)" />
     </ItemGroup>
 
     <!-- publish the project for each RID -->
