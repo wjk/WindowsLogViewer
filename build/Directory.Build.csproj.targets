@@ -38,4 +38,8 @@
   <!-- ============== Code Signing ============== -->
 
   <Import Project="signing\CodeSigning.targets" />
+
+  <!-- ============== MSIX Packaging ============== -->
+
+  <Import Project="targets\MsixBundle.targets" Condition="'$(EnableMsixTooling)' == 'true'" />
 </Project>
