@@ -14,4 +14,10 @@
     <PublishReadyToRun>false</PublishReadyToRun>
     <PublishAppxPackage>true</PublishAppxPackage>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <AppxPackageSigningEnabled>true</AppxPackageSigningEnabled>
+    <PackageCertificateThumbprint>7FBB921E676023560F87277965519D4062FA1E56</PackageCertificateThumbprint>
+    <AppxHashAlgorithmId>SHA256</AppxHashAlgorithmId>
+  </PropertyGroup>
 </Project>
