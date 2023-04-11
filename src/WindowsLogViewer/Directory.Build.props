@@ -19,5 +19,5 @@
     <PlatformTarget Condition="$(RuntimeIdentifier.EndsWith('arm64'))">ARM64</PlatformTarget>
   </PropertyGroup>
 
-  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props'))" />
+  <Import Project="..\Directory.Build.props" />
 </Project>
