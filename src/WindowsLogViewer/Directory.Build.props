@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Project>
+  <Import Project="..\Directory.Build.props" />
+
   <PropertyGroup>
     <PublishProtocol>FileSystem</PublishProtocol>
 
@@ -12,12 +14,4 @@
     <PublishReadyToRun>false</PublishReadyToRun>
     <PublishAppxPackage>true</PublishAppxPackage>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(PlatformTarget)' == '' and '$(RuntimeIdentifier)' != ''">
-    <PlatformTarget Condition="$(RuntimeIdentifier.EndsWith('x86'))">x86</PlatformTarget>
-    <PlatformTarget Condition="$(RuntimeIdentifier.EndsWith('x64'))">x64</PlatformTarget>
-    <PlatformTarget Condition="$(RuntimeIdentifier.EndsWith('arm64'))">ARM64</PlatformTarget>
-  </PropertyGroup>
-
-  <Import Project="..\Directory.Build.props" />
 </Project>
