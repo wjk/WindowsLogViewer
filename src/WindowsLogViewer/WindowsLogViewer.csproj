@@ -19,7 +19,7 @@
 
   <ItemGroup>
     <None Include="app.manifest" />
-    <None Include="publish.props" />
+    <None Include="Directory.Build.props" />
 
     <Content Include="Package.appxmanifest" />
     <Content Include="Assets\*.png" />
@@ -29,7 +29,5 @@
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.230313.1" PrivateAssets="all" />
     <PackageReference Include="ModernWpfUI" Version="0.9.6" />
   </ItemGroup>
-
-  <Import Project="publish.props" />
 
 </Project>
