@@ -6,7 +6,7 @@
         xmlns:modern="http://schemas.modernwpf.com/2019"
         xmlns:controls="clr-namespace:WindowsLogViewer.Controls"
         xmlns:model="clr-namespace:WindowsLogViewer.Model"
-        Title="Windows Log Viewer"
+        Title="Modern Event Viewer"
         Loaded="Window_Loaded" modern:WindowHelper.UseModernWindowStyle="True">
     <Window.Resources>
         <controls:DateTimeToStringConverter x:Key="EventDateConverter" Format="G" />
