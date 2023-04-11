@@ -29,6 +29,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{BE4317
 		..\build\StyleCop.ruleset = ..\build\StyleCop.ruleset
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "targets", "targets", "{5F06A057-0C4A-4784-B58B-5AE311653D13}"
+	ProjectSection(SolutionItems) = preProject
+		..\build\targets\MsixBundle.targets = ..\build\targets\MsixBundle.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "vcxproj", "vcxproj", "{5E60B62F-068D-45B9-A5EF-DD2C8D9149E4}"
+	ProjectSection(SolutionItems) = preProject
+		..\build\vcxproj\DetectCI.props = ..\build\vcxproj\DetectCI.props
+		..\build\vcxproj\DeterministicBuild.props = ..\build\vcxproj\DeterministicBuild.props
+		..\build\vcxproj\DeterministicBuild.targets = ..\build\vcxproj\DeterministicBuild.targets
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +58,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{3829BEBC-74EA-475F-A9B7-790F4D6284AF} = {5DE0755E-2DD8-4E6D-975E-9DF74A922529}
 		{BE431712-5417-4DF6-8FCC-A283E6628361} = {5DE0755E-2DD8-4E6D-975E-9DF74A922529}
+		{5F06A057-0C4A-4784-B58B-5AE311653D13} = {BE431712-5417-4DF6-8FCC-A283E6628361}
+		{5E60B62F-068D-45B9-A5EF-DD2C8D9149E4} = {BE431712-5417-4DF6-8FCC-A283E6628361}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {61608E88-E4A0-4FD4-ABB5-8998899500CD}

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project>
+  <PropertyGroup>
+    <PublishProtocol>FileSystem</PublishProtocol>
+
+    <TargetFramework>net7.0-windows10.0.18362</TargetFramework>
+    <RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
+    <PublishDir>$(RepoRootPath)bin\$(MSBuildProjectName)\Publish_$(Platform)-$(Configuration)\</PublishDir>
+    <SelfContained>true</SelfContained>
+
+    <PublishSingleFile>false</PublishSingleFile>
+    <PublishReadyToRun>false</PublishReadyToRun>
+    <PublishAppxPackage>true</PublishAppxPackage>
+  </PropertyGroup>
+</Project>

@@ -2,20 +2,34 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows10.0.18362</TargetFramework>
+    <RuntimeIdentifiers>win10-x64;win10-arm64</RuntimeIdentifiers>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
 
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AssemblyTitle>Windows Log Viewer</AssemblyTitle>
+
+    <EnableMsixTooling>true</EnableMsixTooling>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="app.manifest" />
+    <AppxManifest Include="Package.appxmanifest" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="app.manifest" />
+    <None Include="publish.props" />
+
+    <Content Include="Package.appxmanifest" />
+    <Content Include="Assets\*.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.230313.1" PrivateAssets="all" />
     <PackageReference Include="ModernWpfUI" Version="0.9.6" />
   </ItemGroup>
+
+  <Import Project="publish.props" />
 
 </Project>
