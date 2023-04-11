@@ -84,8 +84,7 @@
             </Grid.ColumnDefinitions>
 
             <ScrollViewer Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Margin="18 12 18 0">
-                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Margin="12 12 12 0" TextWrapping="Wrap"
-                           Text="{Binding Source={x:Reference EventList}, Path=SelectedItem.Message}"
+                <TextBlock Text="{Binding Source={x:Reference EventList}, Path=SelectedItem.Message}" TextWrapping="Wrap"
                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
             </ScrollViewer>
 
